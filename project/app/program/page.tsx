@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { Logo } from '@/components/Logo';
 
 export default function Program() {
   const program = [
@@ -162,15 +163,7 @@ export default function Program() {
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-900 to-blue-700 rounded-lg flex items-center justify-center">
-                <Award className="w-6 h-6 text-yellow-400" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">YPE Summit 2025</h1>
-                <p className="text-sm text-gray-600">Youth Ministries</p>
-              </div>
-            </div>
+            <Logo variant="header" />
             <nav className="hidden md:flex space-x-8">
               <Link href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</Link>
               <Link href="/speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</Link>
@@ -408,14 +401,8 @@ export default function Program() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center">
-                  <Award className="w-6 h-6 text-blue-900" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">YPE Summit 2025</h3>
-                  <p className="text-sm text-gray-400">Youth Ministries</p>
-                </div>
+              <div className="mb-4">
+                <Logo variant="footer" />
               </div>
               <p className="text-gray-400 leading-relaxed">
                 Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.

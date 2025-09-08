@@ -4,6 +4,7 @@ import { Award, Users, Target, Heart, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Logo } from '@/components/Logo';
 
 export default function About() {
   return (
@@ -12,15 +13,7 @@ export default function About() {
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-900 to-blue-700 rounded-lg flex items-center justify-center">
-                <Award className="w-6 h-6 text-yellow-400" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">YPE Summit 2025</h1>
-                <p className="text-sm text-gray-600">Youth Ministries</p>
-              </div>
-            </div>
+            <Logo variant="header" />
             <nav className="hidden md:flex space-x-8">
               <a href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</a>
               <a href="/#speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</a>

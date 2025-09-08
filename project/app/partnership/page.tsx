@@ -11,40 +11,52 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { createPartnership } from '@/actions/partnerships';
+import { partnershipSchema, formatValidationErrors } from '@/lib/validations';
+import { SUPPORT_TYPES } from '@/types';
+import { Logo } from '@/components/Logo';
 
 export default function Partnership() {
   const [partnerSubmitting, setPartnerSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   // Partner form submission
   const handlePartnership = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPartnerSubmitting(true);
+    setValidationErrors({});
     
     const formData = new FormData(e.currentTarget);
     const data = {
-      organizationName: formData.get('organizationName'),
-      contactPerson: formData.get('contactPerson'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      supportType: formData.get('supportType'),
-      message: formData.get('message'),
-      type: 'partnership'
+      organizationName: formData.get('organizationName') as string,
+      contactPerson: formData.get('contactPerson') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      supportType: formData.get('supportType') as string,
+      message: (formData.get('message') as string) || undefined,
     };
 
-    try {
-      const response = await fetch('/api/submit-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+    // Validate form data
+    const validation = partnershipSchema.safeParse(data);
+    if (!validation.success) {
+      const errors = formatValidationErrors(validation.error);
+      setValidationErrors(errors);
+      toast.error('Please fix the validation errors and try again.');
+      setPartnerSubmitting(false);
+      return;
+    }
 
-      if (response.ok) {
-        toast.success('Partnership inquiry submitted successfully! We will contact you soon.');
+    try {
+      const result = await createPartnership(validation.data);
+
+      if (result.success) {
+        toast.success(result.message || 'Partnership inquiry submitted successfully!');
         (e.target as HTMLFormElement).reset();
       } else {
-        toast.error('Failed to submit partnership inquiry. Please try again.');
+        toast.error(result.error || 'Failed to submit partnership inquiry. Please try again.');
       }
     } catch (error) {
+      console.error('Partnership submission error:', error);
       toast.error('An error occurred. Please try again.');
     } finally {
       setPartnerSubmitting(false);
@@ -130,15 +142,7 @@ export default function Partnership() {
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-900 to-blue-700 rounded-lg flex items-center justify-center">
-                <Award className="w-6 h-6 text-yellow-400" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">YPE Summit 2025</h1>
-                <p className="text-sm text-gray-600">Youth Ministries</p>
-              </div>
-            </div>
+            <Logo variant="header" />
             <nav className="hidden md:flex space-x-8">
               <Link href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</Link>
               <Link href="/speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</Link>
@@ -183,7 +187,7 @@ export default function Partnership() {
               Why Partner With YPE Summit?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Align your organization with a movement that's transforming lives and communities through purposeful professional excellence.
+              Align your organization with a movement that&apos;s transforming lives and communities through purposeful professional excellence.
             </p>
           </div>
 
@@ -235,7 +239,7 @@ export default function Partnership() {
               Partnership Tiers
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose the partnership level that best aligns with your organization's goals and budget.
+              Choose the partnership level that best aligns with your organization&apos;s goals and budget.
             </p>
           </div>
 
@@ -305,7 +309,7 @@ export default function Partnership() {
               Partner With Us Today
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ready to make an impact? Fill out the form below and we'll get in touch to discuss partnership opportunities.
+              Ready to make an impact? Fill out the form below and we&apos;ll get in touch to discuss partnership opportunities.
             </p>
           </div>
 
@@ -320,9 +324,12 @@ export default function Partnership() {
                         id="organizationName" 
                         name="organizationName"
                         required 
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.organizationName ? 'border-red-500' : ''}`}
                         placeholder="Enter organization name"
                       />
+                      {validationErrors.organizationName && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.organizationName}</p>
+                      )}
                     </div>
 
                     <div>
@@ -331,9 +338,12 @@ export default function Partnership() {
                         id="contactPerson" 
                         name="contactPerson"
                         required 
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.contactPerson ? 'border-red-500' : ''}`}
                         placeholder="Enter contact person name"
                       />
+                      {validationErrors.contactPerson && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.contactPerson}</p>
+                      )}
                     </div>
 
                     <div>
@@ -343,9 +353,12 @@ export default function Partnership() {
                         name="email"
                         type="email" 
                         required 
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter email address"
                       />
+                      {validationErrors.email && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.email}</p>
+                      )}
                     </div>
 
                     <div>
@@ -355,26 +368,30 @@ export default function Partnership() {
                         name="phone"
                         type="tel" 
                         required 
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.phone ? 'border-red-500' : ''}`}
                         placeholder="Enter phone number"
                       />
+                      {validationErrors.phone && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.phone}</p>
+                      )}
                     </div>
                   </div>
 
                   <div>
                     <Label htmlFor="supportType">Type of Support *</Label>
                     <Select name="supportType" required>
-                      <SelectTrigger className="mt-1">
+                      <SelectTrigger className={`mt-1 ${validationErrors.supportType ? 'border-red-500' : ''}`}>
                         <SelectValue placeholder="Select support type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="financial">Financial Sponsorship</SelectItem>
-                        <SelectItem value="venue">Venue Support</SelectItem>
-                        <SelectItem value="media">Media Partnership</SelectItem>
-                        <SelectItem value="logistics">Logistics Support</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        {Object.entries(SUPPORT_TYPES).map(([value, label]) => (
+                          <SelectItem key={value} value={value}>{label}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
+                    {validationErrors.supportType && (
+                      <p className="text-sm text-red-500 mt-1">{validationErrors.supportType}</p>
+                    )}
                   </div>
 
                   <div>
@@ -382,9 +399,12 @@ export default function Partnership() {
                     <Textarea 
                       id="partnerMessage" 
                       name="message"
-                      className="mt-1 h-32"
+                      className={`mt-1 h-32 ${validationErrors.message ? 'border-red-500' : ''}`}
                       placeholder="Tell us more about your partnership interest, budget range, and how you'd like to support the summit..."
                     />
+                    {validationErrors.message && (
+                      <p className="text-sm text-red-500 mt-1">{validationErrors.message}</p>
+                    )}
                   </div>
 
                   <Button 
@@ -409,7 +429,7 @@ export default function Partnership() {
               Get in Touch
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Have questions about partnership opportunities? We're here to help you find the perfect way to support the summit.
+              Have questions about partnership opportunities? We&apos;re here to help you find the perfect way to support the summit.
             </p>
           </div>
 
@@ -486,14 +506,8 @@ export default function Partnership() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center">
-                  <Award className="w-6 h-6 text-blue-900" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">YPE Summit 2025</h3>
-                  <p className="text-sm text-gray-400">Youth Ministries</p>
-                </div>
+              <div className="mb-4">
+                <Logo variant="footer" />
               </div>
               <p className="text-gray-400 leading-relaxed">
                 Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.
