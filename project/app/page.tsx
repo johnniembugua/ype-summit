@@ -138,10 +138,10 @@ export default function Home() {
                   size="lg" 
                   className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
                 >
-                  Register to Attend - KSH 400
+                  Register to Attend
                 </Button>
               </Link>
-              <p className="text-sm text-blue-200">Limited seats available • Early bird pricing ends soon</p>
+              <p className="text-sm text-blue-200">Limited seats available • Register now to secure your spot</p>
             </div>
           </div>
         </div>

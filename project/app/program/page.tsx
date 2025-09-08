@@ -341,7 +341,7 @@ export default function Program() {
               What's Included
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your registration fee of KSH 400 includes everything you need for a transformative day.
+              Your free registration includes everything you need for a transformative day.
             </p>
           </div>
 
@@ -381,7 +381,7 @@ export default function Program() {
                 size="lg" 
                 className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
               >
-                Register Now - KSH 400
+                Register Now
               </Button>
             </Link>
             <Link href="/speakers">

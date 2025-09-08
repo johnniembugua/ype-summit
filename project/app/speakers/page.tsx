@@ -194,7 +194,7 @@ export default function Speakers() {
                 size="lg" 
                 className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
               >
-                Register Now - KSH 400
+                Register Now
               </Button>
             </Link>
             <Link href="/program">

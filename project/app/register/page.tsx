@@ -11,41 +11,53 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { createRegistration } from '@/actions/registrations';
+import { createQuestion } from '@/actions/questions';
+import { registrationSchema, questionSchema, formatValidationErrors } from '@/lib/validations';
+import { WORKSHOP_OPTIONS } from '@/types';
 
 export default function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questionSubmitting, setQuestionSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   // Registration form submission
   const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setValidationErrors({});
     
     const formData = new FormData(e.currentTarget);
     const data = {
-      fullName: formData.get('fullName'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      profession: formData.get('profession'),
-      church: formData.get('church'),
-      workshopPreference: formData.get('workshopPreference'),
-      type: 'registration'
+      fullName: formData.get('fullName') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      profession: formData.get('profession') as string,
+      church: (formData.get('church') as string) || undefined,
+      workshopPreference: formData.get('workshopPreference') as string,
     };
 
-    try {
-      const response = await fetch('/api/submit-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+    // Validate form data
+    const validation = registrationSchema.safeParse(data);
+    if (!validation.success) {
+      const errors = formatValidationErrors(validation.error);
+      setValidationErrors(errors);
+      toast.error('Please fix the validation errors and try again.');
+      setIsSubmitting(false);
+      return;
+    }
 
-      if (response.ok) {
-        toast.success('Registration submitted successfully! You will receive a confirmation email with payment details.');
+    try {
+      const result = await createRegistration(validation.data);
+
+      if (result.success) {
+        toast.success(result.message || 'Registration submitted successfully!');
         (e.target as HTMLFormElement).reset();
       } else {
-        toast.error('Failed to submit registration. Please try again.');
+        toast.error(result.error || 'Failed to submit registration. Please try again.');
       }
     } catch (error) {
+      console.error('Registration error:', error);
       toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -56,28 +68,35 @@ export default function Register() {
   const handleQuestion = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setQuestionSubmitting(true);
+    setValidationErrors({});
     
     const formData = new FormData(e.currentTarget);
     const data = {
-      question: formData.get('question'),
-      name: formData.get('name'),
-      type: 'question'
+      name: formData.get('name') as string,
+      question: formData.get('question') as string,
     };
 
-    try {
-      const response = await fetch('/api/submit-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+    // Validate form data
+    const validation = questionSchema.safeParse(data);
+    if (!validation.success) {
+      const errors = formatValidationErrors(validation.error);
+      setValidationErrors(errors);
+      toast.error('Please fix the validation errors and try again.');
+      setQuestionSubmitting(false);
+      return;
+    }
 
-      if (response.ok) {
-        toast.success('Question submitted successfully! We\'ll address it during the summit.');
+    try {
+      const result = await createQuestion(validation.data);
+
+      if (result.success) {
+        toast.success(result.message || 'Question submitted successfully!');
         (e.target as HTMLFormElement).reset();
       } else {
-        toast.error('Failed to submit question. Please try again.');
+        toast.error(result.error || 'Failed to submit question. Please try again.');
       }
     } catch (error) {
+      console.error('Question submission error:', error);
       toast.error('An error occurred. Please try again.');
     } finally {
       setQuestionSubmitting(false);
@@ -146,7 +165,7 @@ export default function Register() {
                   Register to Attend
                 </h2>
                 <p className="text-xl text-gray-600 mb-6">
-                  Join us for a transformative day of empowerment and inspiration. Registration fee: <span className="font-bold text-yellow-600">KSH 400</span>
+                  Join us for a transformative day of empowerment and inspiration. Registration is free!
                 </p>
                 <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-lg p-6 text-white">
                   <div className="flex items-center space-x-4">
@@ -171,9 +190,12 @@ export default function Register() {
                     id="fullName" 
                     name="fullName"
                     required 
-                    className="mt-1"
+                    className={`mt-1 ${validationErrors.fullName ? 'border-red-500' : ''}`}
                     placeholder="Enter your full name"
                   />
+                  {validationErrors.fullName && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.fullName}</p>
+                  )}
                 </div>
 
                 <div>
@@ -183,9 +205,12 @@ export default function Register() {
                     name="email"
                     type="email" 
                     required 
-                    className="mt-1"
+                    className={`mt-1 ${validationErrors.email ? 'border-red-500' : ''}`}
                     placeholder="Enter your email address"
                   />
+                  {validationErrors.email && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -195,9 +220,12 @@ export default function Register() {
                     name="phone"
                     type="tel" 
                     required 
-                    className="mt-1"
+                    className={`mt-1 ${validationErrors.phone ? 'border-red-500' : ''}`}
                     placeholder="Enter your phone number"
                   />
+                  {validationErrors.phone && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.phone}</p>
+                  )}
                 </div>
 
                 <div>
@@ -206,9 +234,12 @@ export default function Register() {
                     id="profession" 
                     name="profession"
                     required 
-                    className="mt-1"
+                    className={`mt-1 ${validationErrors.profession ? 'border-red-500' : ''}`}
                     placeholder="e.g., Marketing, Healthcare, Finance"
                   />
+                  {validationErrors.profession && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.profession}</p>
+                  )}
                 </div>
 
                 <div>
@@ -216,24 +247,29 @@ export default function Register() {
                   <Input 
                     id="church" 
                     name="church"
-                    className="mt-1"
+                    className={`mt-1 ${validationErrors.church ? 'border-red-500' : ''}`}
                     placeholder="Enter your church or ministry"
                   />
+                  {validationErrors.church && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.church}</p>
+                  )}
                 </div>
 
                 <div>
                   <Label htmlFor="workshopPreference">Workshop Preference *</Label>
                   <Select name="workshopPreference" required>
-                    <SelectTrigger className="mt-1">
+                    <SelectTrigger className={`mt-1 ${validationErrors.workshopPreference ? 'border-red-500' : ''}`}>
                       <SelectValue placeholder="Choose your preferred workshop" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="innovation">Innovation with Purpose (Dr. Sarah Kiprotich)</SelectItem>
-                      <SelectItem value="finance">Financial Stewardship & Wealth Building (Daniel Kariuki)</SelectItem>
-                      <SelectItem value="healthcare">Healthcare Excellence & Compassion (Dr. Grace Wanjiku)</SelectItem>
-                      <SelectItem value="media">Media with Kingdom Values (Samuel Njenga)</SelectItem>
+                      {Object.entries(WORKSHOP_OPTIONS).map(([value, label]) => (
+                        <SelectItem key={value} value={value}>{label}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
+                  {validationErrors.workshopPreference && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.workshopPreference}</p>
+                  )}
                   <p className="text-sm text-gray-500 mt-1">Workshop spaces are limited and allocated on first-come, first-served basis</p>
                 </div>
 
@@ -242,7 +278,7 @@ export default function Register() {
                   className="w-full bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold py-3 text-lg"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Submitting...' : 'Register Now - KSH 400'}
+                  {isSubmitting ? 'Submitting...' : 'Register Now'}
                 </Button>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -251,7 +287,7 @@ export default function Register() {
                     <div>
                       <h4 className="font-semibold text-yellow-800">Next Steps</h4>
                       <p className="text-sm text-yellow-700 mt-1">
-                        After registration, you&apos;ll receive an email with payment instructions and event details. Payment can be made via M-Pesa or bank transfer.
+                        After registration, you&apos;ll receive a confirmation email with event details and your workshop assignment.
                       </p>
                     </div>
                   </div>
@@ -286,9 +322,12 @@ export default function Register() {
                     id="questionName" 
                     name="name"
                     required 
-                    className="mt-1"
+                    className={`mt-1 ${validationErrors.name ? 'border-red-500' : ''}`}
                     placeholder="Enter your name"
                   />
+                  {validationErrors.name && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.name}</p>
+                  )}
                 </div>
 
                 <div>
@@ -297,9 +336,12 @@ export default function Register() {
                     id="question" 
                     name="question"
                     required 
-                    className="mt-1 h-32"
+                    className={`mt-1 h-32 ${validationErrors.question ? 'border-red-500' : ''}`}
                     placeholder="What would you like to ask our speakers? Be specific about the topic or speaker you're addressing."
                   />
+                  {validationErrors.question && (
+                    <p className="text-sm text-red-500 mt-1">{validationErrors.question}</p>
+                  )}
                 </div>
 
                 <Button 
@@ -337,7 +379,8 @@ export default function Register() {
         </div>
       </section>
 
-      {/* Payment Information */}
+      {/* Payment Information - COMMENTED OUT FOR NOW */}
+      {/* 
       <section className="py-20 bg-gradient-to-br from-blue-50 to-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -414,6 +457,7 @@ export default function Register() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white">
