@@ -230,17 +230,17 @@ export default function Home() {
             <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
               <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-yellow-400 flex-shrink-0">
                 <img 
-                  src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
-                  alt="Hon. David Maraga"
+                  src="/images/1.jpeg"
+                  alt="CJ Maraga"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="text-center md:text-left">
                 <Badge className="bg-yellow-400 text-blue-900 mb-4">Featured Speaker</Badge>
-                <h3 className="text-3xl font-bold mb-2">Hon. David Maraga</h3>
-                <p className="text-xl text-yellow-400 mb-4">Former Chief Justice of Kenya</p>
+                <h3 className="text-3xl font-bold mb-2">CJ Maraga</h3>
+                <p className="text-xl text-yellow-400 mb-4">14th Chief Justice and President of the Supreme Court of Kenya</p>
                 <p className="text-lg text-blue-100 leading-relaxed mb-6">
-                  A distinguished jurist with over 40 years of legal practice, known for his integrity and principled leadership in Kenya's judiciary.
+                  A distinguished Jurist who served as the 14th Chief Justice and President of the Supreme Court of Kenya, active in civic life and mentoring youth.
                 </p>
                 <Link href="/speakers">
                   <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30">

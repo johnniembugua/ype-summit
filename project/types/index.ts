@@ -110,16 +110,18 @@ export type PartnershipStats = {
 
 // Workshop preferences
 export type WorkshopPreference = 
-  | 'innovation'
-  | 'finance'
+  | 'leadership'
   | 'healthcare'
-  | 'media';
+  | 'enterprise'
+  | 'business'
+  | 'finance';
 
 export const WORKSHOP_OPTIONS = {
-  innovation: 'Innovation with Purpose (Dr. Sarah Kiprotich)',
-  finance: 'Financial Stewardship & Wealth Building (Daniel Kariuki)',
-  healthcare: 'Healthcare Excellence & Compassion (Dr. Grace Wanjiku)',
-  media: 'Media with Kingdom Values (Samuel Njenga)',
+  leadership: 'Leadership with Integrity (CJ Maraga)',
+  healthcare: 'Healthcare Excellence (Dr. Dorothy Mbori-Ngacha)',
+  enterprise: 'Enterprise Development (Mr. Josphat Mokaya)',
+  business: 'Strategic Business Growth (Mr. Erick Macakiage)',
+  finance: 'Financial Leadership (FCPA. Edwin Makori)',
 } as const;
 
 // Support types

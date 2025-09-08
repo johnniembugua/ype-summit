@@ -9,54 +9,40 @@ import Link from 'next/link';
 export default function Speakers() {
   const speakers = [
     {
-      name: "Hon. David Maraga",
-      title: "Former Chief Justice of Kenya",
-      bio: "A distinguished jurist with over 40 years of legal practice, known for his integrity and principled leadership in Kenya's judiciary. His commitment to justice and righteousness has made him a respected figure in both legal and faith communities.",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+      name: "CJ Maraga",
+      title: "14th Chief Justice and President of the Supreme Court of Kenya",
+      bio: "A distinguished Jurist, who served as the 14th Chief Justice and President of the Supreme Court of Kenya. CJ Maraga is active in civic life, mentoring youth, leading the Africa Judges and Jurists Forum, and advocating for governance. He has received numerous awards, including the Elder of the Golden Heart (EGH) and honorary doctorates.",
+      image: "/images/4.jpeg",
       featured: true,
       topic: "Leadership with Integrity: Principles for Kingdom-Minded Professionals"
     },
     {
-      name: "Dr. Sarah Kiprotich",
-      title: "CEO, Innovation Hub Kenya",
-      bio: "Leading entrepreneur and tech innovator driving digital transformation across East Africa. She has successfully launched multiple startups and is passionate about using technology to solve real-world problems while maintaining strong ethical foundations.",
-      image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      topic: "Innovation with Purpose: Building Tech Solutions for Kingdom Impact"
+      name: "Dr. Dorothy Mbori-Ngacha",
+      title: "Medical Doctor & Public Health Expert",
+      bio: "A medical doctor with specialist training in paediatrics, infectious disease, and public health. She has extensive experience as a public health professional working in academia, the public sector, the NGO community, and international organizations.",
+      image: "/images/2.jpeg",
+      topic: "Healthcare Excellence: Serving with Purpose and Compassion"
     },
     {
-      name: "Pastor James Mwangi",
-      title: "Senior Pastor & Business Leader",
-      bio: "Combining ministry with successful business ventures, advocating for marketplace Christianity. He leads a thriving congregation while running multiple businesses, demonstrating how faith and entrepreneurship can work together.",
-      image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      topic: "Marketplace Ministry: Where Faith Meets Business"
+      name: "Mr. Josphat Mokaya",
+      title: "Enterprise Development Expert & Climate Action Expert",
+      bio: "An Enterprise Development Expert, an ILO-SIYB Certified Business Trainer and an award winning businessman. He is also a Climate Action Expert and the Sub-Regional Node Coordinator for ECOP East Africa. He has a passion in training and mentoring SMEs and entrepreneurs to exploit their full potential. He drives sustainable development through market research, impactful mentorship, and coaching.",
+      image: "/images/3.jpeg",
+      topic: "Enterprise Development: Unlocking Entrepreneurial Potential"
     },
     {
-      name: "Dr. Grace Wanjiku",
-      title: "Healthcare Entrepreneur",
-      bio: "Pioneering affordable healthcare solutions and empowering women in business. Her innovative approach to healthcare delivery has improved access to quality medical services in underserved communities across Kenya.",
-      image: "https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      topic: "Healthcare Innovation: Serving with Excellence and Compassion"
+      name: "Mr. Erick Macakiage",
+      title: "Chairman of RHD Group of Companies",
+      bio: "Chairman of RHD Group of Companies; Regional Representative for Malaysian Business Community; a lead government consultant, and the founder of the Bridal Choir Ministry. He mentors SMEs & corporate businesses, boosting their efficiencies and profitability thus ensuring sustainable growth through strategic solutions and mentorship.",
+      image: "/images/5.jpeg",
+      topic: "Strategic Business Growth: Building Sustainable Enterprises"
     },
     {
-      name: "Daniel Kariuki",
-      title: "Fintech Innovator",
-      bio: "Revolutionizing financial services and promoting financial literacy in Kenya. His fintech solutions have helped thousands of Kenyans access banking services and build financial stability through innovative mobile platforms.",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      topic: "Financial Inclusion: Building Wealth with Kingdom Principles"
-    },
-    {
-      name: "Ruth Muthoni",
-      title: "Social Impact Leader",
-      bio: "Driving sustainable development and youth empowerment initiatives across Kenya. Her work in community development has transformed lives and created opportunities for young people to thrive in their communities.",
-      image: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      topic: "Social Entrepreneurship: Creating Sustainable Change"
-    },
-    {
-      name: "Samuel Njenga",
-      title: "Media & Communications Expert",
-      bio: "Transforming digital communication and building ethical media platforms. His work in media has focused on promoting positive narratives and using communication technology to advance Kingdom values.",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      topic: "Media with Purpose: Communicating Kingdom Values in Digital Age"
+      name: "FCPA. Edwin Makori",
+      title: "Former CEO ICPAK & Finance Expert",
+      bio: "Previously CEO ICPAK, is a finance expert with extensive experience in strategy, finance, business development, innovation, and IT, with a track record of leading teams to achieve transformative results.",
+      image: "/images/1.jpeg",
+      topic: "Financial Leadership: Strategic Finance for Kingdom Impact"
     }
   ];
 
@@ -157,11 +143,11 @@ export default function Speakers() {
               <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
                 <CardContent className="p-6">
                   <div className="text-center">
-                    <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-blue-100 group-hover:ring-blue-200 transition-all">
+                    <div className="w-36 h-36 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-blue-100 group-hover:ring-blue-200 transition-all">
                       <img 
                         src={speaker.image} 
                         alt={speaker.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                       />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{speaker.name}</h3>
@@ -183,7 +169,7 @@ export default function Speakers() {
       <section className="py-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Don't Miss These Inspiring Sessions
+            Don&apos;t Miss These Inspiring Sessions
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
             Register now to secure your seat and learn from these distinguished speakers who are making a Kingdom impact in their professions.

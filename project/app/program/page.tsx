@@ -39,7 +39,7 @@ export default function Program() {
     { 
       time: '10:30 AM', 
       title: 'Panel Discussion', 
-      description: 'Purpose in the Marketplace - Featuring Dr. Sarah Kiprotich, Pastor James Mwangi, and Dr. Grace Wanjiku',
+      description: 'Purpose in the Marketplace - Featuring Dr. Dorothy Mbori-Ngacha, Mr. Josphat Mokaya, and Mr. Erick Macakiage',
       duration: '60 min',
       type: 'panel'
     },
@@ -110,27 +110,33 @@ export default function Program() {
 
   const workshops = [
     {
-      title: "Innovation with Purpose",
-      facilitator: "Dr. Sarah Kiprotich",
-      description: "Learn how to build tech solutions that create Kingdom impact while maintaining commercial viability.",
-      capacity: "25 participants"
-    },
-    {
-      title: "Financial Stewardship & Wealth Building",
-      facilitator: "Daniel Kariuki",
-      description: "Discover biblical principles for financial management and building sustainable wealth.",
+      title: "Leadership with Integrity",
+      facilitator: "CJ Maraga",
+      description: "Learn principles of ethical leadership and governance from Kenya's former Chief Justice, focusing on integrity in professional life.",
       capacity: "30 participants"
     },
     {
-      title: "Healthcare Excellence & Compassion",
-      facilitator: "Dr. Grace Wanjiku",
-      description: "Explore how to serve with excellence in healthcare while maintaining compassionate care.",
+      title: "Healthcare Excellence",
+      facilitator: "Dr. Dorothy Mbori-Ngacha",
+      description: "Explore best practices in healthcare delivery, public health strategies, and serving communities with medical expertise.",
+      capacity: "25 participants"
+    },
+    {
+      title: "Enterprise Development",
+      facilitator: "Mr. Josphat Mokaya",
+      description: "Discover how to develop sustainable enterprises, mentor SMEs, and drive climate action through business innovation.",
+      capacity: "25 participants"
+    },
+    {
+      title: "Strategic Business Growth",
+      facilitator: "Mr. Erick Macakiage",
+      description: "Learn strategic solutions for business growth, corporate mentorship, and building profitable sustainable enterprises.",
       capacity: "20 participants"
     },
     {
-      title: "Media with Kingdom Values",
-      facilitator: "Samuel Njenga",
-      description: "Learn to communicate Kingdom values effectively in the digital age.",
+      title: "Financial Leadership",
+      facilitator: "FCPA. Edwin Makori",
+      description: "Master strategic finance, business development, and innovative financial leadership for transformative results.",
       capacity: "25 participants"
     }
   ];
