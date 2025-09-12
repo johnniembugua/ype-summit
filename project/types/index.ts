@@ -24,6 +24,7 @@ export type Question = {
   isAnswered: boolean;
   answeredAt?: Date | null;
   answeredBy?: string | null;
+  upvotes: number;
   createdAt: Date;
   updatedAt: Date;
 };
