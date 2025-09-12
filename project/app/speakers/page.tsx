@@ -1,11 +1,12 @@
 'use client';
 
-import { Award, ArrowLeft } from 'lucide-react';
+import { Award, ArrowLeft, Twitter, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
+import { Navigation } from '@/components/Navigation';
 
 export default function Speakers() {
   const speakers = [
@@ -15,56 +16,62 @@ export default function Speakers() {
       bio: "A distinguished Jurist, who served as the 14th Chief Justice and President of the Supreme Court of Kenya. CJ Maraga is active in civic life, mentoring youth, leading the Africa Judges and Jurists Forum, and advocating for governance. He has received numerous awards, including the Elder of the Golden Heart (EGH) and honorary doctorates.",
       image: "/images/4.jpeg",
       featured: true,
-      topic: "Leadership with Integrity: Principles for Kingdom-Minded Professionals"
+      topic: "Leadership with Integrity: Principles for Kingdom-Minded Professionals",
+      social: {
+        twitter: "https://x.com/dkmaraga?lang=en",
+        linkedin: "https://linkedin.com/in/cjmaraga"
+      }
     },
     {
       name: "Dr. Dorothy Mbori-Ngacha",
       title: "Medical Doctor & Public Health Expert",
       bio: "A medical doctor with specialist training in paediatrics, infectious disease, and public health. She has extensive experience as a public health professional working in academia, the public sector, the NGO community, and international organizations.",
-      image: "/images/2.jpeg",
-      topic: "Healthcare Excellence: Serving with Purpose and Compassion"
+      image: "/images/2.jpg",
+      topic: "Healthcare Excellence: Serving with Purpose and Compassion",
+      social: {
+        twitter: "https://twitter.com/drmboringacha",
+        linkedin: "https://www.linkedin.com/in/dorothy-mbori-ngacha-778b5b18/"
+      }
     },
     {
       name: "Mr. Josphat Mokaya",
       title: "Enterprise Development Expert & Climate Action Expert",
       bio: "An Enterprise Development Expert, an ILO-SIYB Certified Business Trainer and an award winning businessman. He is also a Climate Action Expert and the Sub-Regional Node Coordinator for ECOP East Africa. He has a passion in training and mentoring SMEs and entrepreneurs to exploit their full potential. He drives sustainable development through market research, impactful mentorship, and coaching.",
       image: "/images/3.jpeg",
-      topic: "Enterprise Development: Unlocking Entrepreneurial Potential"
+      topic: "Enterprise Development: Unlocking Entrepreneurial Potential",
+      social: {
+        twitter: "https://twitter.com/josphatmokaya",
+        linkedin: "https://www.linkedin.com/in/josphat-mokaya-254735137/"
+      }
     },
     {
       name: "Mr. Erick Macakiage",
       title: "Chairman of RHD Group of Companies",
       bio: "Chairman of RHD Group of Companies; Regional Representative for Malaysian Business Community; a lead government consultant, and the founder of the Bridal Choir Ministry. He mentors SMEs & corporate businesses, boosting their efficiencies and profitability thus ensuring sustainable growth through strategic solutions and mentorship.",
-      image: "/images/5.jpeg",
-      topic: "Strategic Business Growth: Building Sustainable Enterprises"
+      image: "/images/5.jpg",
+      topic: "Strategic Business Growth: Building Sustainable Enterprises",
+      social: {
+        twitter: "https://twitter.com/erickmacakiage",
+        linkedin: "https://ke.linkedin.com/in/edwin-makori-b3572241"
+      }
     },
     {
       name: "FCPA. Edwin Makori",
       title: "Former CEO ICPAK & Finance Expert",
       bio: "Previously CEO ICPAK, is a finance expert with extensive experience in strategy, finance, business development, innovation, and IT, with a track record of leading teams to achieve transformative results.",
-      image: "/images/1.jpeg",
-      topic: "Financial Leadership: Strategic Finance for Kingdom Impact"
+      image: "/images/1.jpg",
+      topic: "Financial Leadership: Strategic Finance for Kingdom Impact",
+      social: {
+        twitter: "https://twitter.com/edwinmakori",
+        linkedin: "https://ke.linkedin.com/in/edwin-makori-b3572241"
+      }
     }
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Logo variant="header" />
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</Link>
-              <Link href="/speakers" className="text-blue-900 font-semibold">Speakers</Link>
-              <Link href="/program" className="text-gray-700 hover:text-blue-900 transition-colors">Program</Link>
-              <Link href="/register" className="text-gray-700 hover:text-blue-900 transition-colors">Register</Link>
-              <Link href="/partnership" className="text-gray-700 hover:text-blue-900 transition-colors">Partnership</Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-900 transition-colors">About</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
@@ -107,6 +114,14 @@ export default function Speakers() {
                   <Badge className="bg-yellow-400 text-blue-900 mb-4">Keynote Speaker</Badge>
                   <h2 className="text-4xl font-bold mb-3">{speakers[0].name}</h2>
                   <p className="text-2xl text-yellow-400 mb-6">{speakers[0].title}</p>
+                  <div className="flex justify-center space-x-4 mb-6">
+                    <a href={speakers[0].social.twitter} target="_blank" rel="noopener noreferrer">
+                      <Twitter className="w-6 h-6 text-blue-100" />
+                    </a>
+                    <a href={speakers[0].social.linkedin} target="_blank" rel="noopener noreferrer">
+                      <Linkedin className="w-6 h-6 text-blue-100" />
+                    </a>
+                  </div>
                   <p className="text-lg text-blue-100 leading-relaxed mb-6">{speakers[0].bio}</p>
                   <div className="bg-white/10 rounded-lg p-4">
                     <h3 className="font-semibold text-yellow-400 mb-2">Speaking Topic:</h3>
@@ -145,8 +160,16 @@ export default function Speakers() {
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{speaker.name}</h3>
                     <p className="text-yellow-600 font-semibold mb-4">{speaker.title}</p>
+                    <div className="flex justify-center space-x-4 mb-4">
+                      <a href={speaker.social.twitter} target="_blank" rel="noopener noreferrer">
+                        <Twitter className="w-6 h-6 text-gray-600" />
+                      </a>
+                      <a href={speaker.social.linkedin} target="_blank" rel="noopener noreferrer">
+                        <Linkedin className="w-6 h-6 text-gray-600" />
+                      </a>
+                    </div>
                     <p className="text-gray-600 text-sm leading-relaxed mb-4">{speaker.bio}</p>
-                    <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-lg p-3">
+                    <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-lg p-3 text-left pt-3">
                       <h4 className="font-semibold text-blue-900 text-sm mb-1">Speaking Topic:</h4>
                       <p className="text-gray-700 text-xs">{speaker.topic}</p>
                     </div>
@@ -239,6 +262,12 @@ export default function Speakers() {
                   <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
                     <span className="text-sm font-bold">yt</span>
                   </div>
+                  <a href="https://twitter.com/ypesummit" target="_blank" rel="noopener noreferrer">
+                    <Twitter className="w-10 h-10 text-gray-400" />
+                  </a>
+                  <a href="https://linkedin.com/in/ypesummit" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="w-10 h-10 text-gray-400" />
+                  </a>
                 </div>
               </div>
             </div>
