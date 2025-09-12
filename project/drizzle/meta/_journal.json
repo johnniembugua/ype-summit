@@ -8,6 +8,13 @@
       "when": 1757335396223,
       "tag": "0000_lush_vargas",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757681347596,
+      "tag": "0001_slimy_nightcrawler",
+      "breakpoints": true
     }
   ]
 }

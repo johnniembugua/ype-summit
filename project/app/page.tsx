@@ -275,7 +275,7 @@ export default function Home() {
           <div className="text-center">
             <Button className="bg-blue-600 hover:bg-blue-700 text-white">
               <Play className="w-4 h-4 mr-2" />
-              Watch Last Year's Highlights
+              Watch Last Year&apos;s Highlights
             </Button>
           </div>
         </div>
@@ -288,7 +288,7 @@ export default function Home() {
             Ready to Make an Impact?
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Join us at the YPE Summit 2025 and be part of a community that's committed to excellence, integrity, and Kingdom impact in the marketplace.
+            Join us at the YPE Summit 2025 and be part of a community that&apos;s committed to excellence, integrity, and Kingdom impact in the marketplace.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <Link href="/register">
@@ -369,7 +369,12 @@ export default function Home() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+            <p className="text-xs mt-2">
+              <a href="/admin" className="text-gray-500 hover:text-gray-300 transition-colors">Admin</a>
+            </p>
             <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+
           </div>
         </div>
       </footer>

@@ -35,6 +35,7 @@ export const questions = pgTable("questions", {
   isAnswered: boolean("is_answered").default(false).notNull(),
   answeredAt: timestamp("answered_at"),
   answeredBy: varchar("answered_by", { length: 255 }),
+  upvotes: integer("upvotes").default(0).notNull(), // Track upvotes from admin
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
