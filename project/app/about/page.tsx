@@ -2,28 +2,16 @@
 
 import { Award, Users, Target, Heart, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Logo } from '@/components/Logo';
+import { Navigation } from '@/components/Navigation';
 
 export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Logo variant="header" />
-            <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</a>
-              <a href="/#speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</a>
-              <a href="/#program" className="text-gray-700 hover:text-blue-900 transition-colors">Program</a>
-              <a href="/#register" className="text-gray-700 hover:text-blue-900 transition-colors">Register</a>
-              <a href="/about" className="text-blue-900 font-semibold">About</a>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
@@ -41,7 +29,7 @@ export default function About() {
             </p>
             <Button 
               onClick={() => window.location.href = '/'}
-              className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
+              className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 border border-yellow-400 hover:border-yellow-500"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Summit
@@ -296,7 +284,7 @@ export default function About() {
           <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
             Join us at the YPE Summit 2025 and be part of a community that's committed to excellence, integrity, and Kingdom impact in the marketplace.
           </p>
-          <div className="space-x-4">
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <Button 
               size="lg" 
               className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
@@ -307,7 +295,7 @@ export default function About() {
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3 text-lg"
+              className="border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-blue-900 px-8 py-3 text-lg"
               onClick={() => window.location.href = '/'}
             >
               Learn More

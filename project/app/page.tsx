@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin, Users, Award, ArrowRight, Play } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Calendar, Clock, MapPin, Users, ArrowRight, Award, Play } from 'lucide-react';
+import { Navigation } from '@/components/Navigation';
 import { Logo } from '@/components/Logo';
 
 export default function Home() {
@@ -44,26 +45,12 @@ export default function Home() {
   const isLive = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-orange-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Logo variant="header" />
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-blue-900 font-semibold">Home</Link>
-              <Link href="/speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</Link>
-              <Link href="/program" className="text-gray-700 hover:text-blue-900 transition-colors">Program</Link>
-              <Link href="/register" className="text-gray-700 hover:text-blue-900 transition-colors">Register</Link>
-              <Link href="/partnership" className="text-gray-700 hover:text-blue-900 transition-colors">Partnership</Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-900 transition-colors">About</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
+      <section className="relative" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }} className="text-white">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 text-center">
           <div className="space-y-8">
@@ -72,12 +59,12 @@ export default function Home() {
                 September 28, 2025 • Nairobi, Kenya
               </Badge>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                MAYS Summit 2025
+                The Annual Young Professionals and Entrepreneurs Summit
               </h1>
-              <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                Young Professionals and Entrepreneurs Summit
+              <p className="text-xl md:text-2xl text-yellow-100 max-w-3xl mx-auto">
+                2025 Edition
               </p>
-              <div className="flex items-center justify-center space-x-6 text-blue-100">
+              <div className="flex items-center justify-center space-x-6 text-yellow-100">
                 <div className="flex items-center space-x-2">
                   <Calendar className="w-5 h-5" />
                   <span>September 28, 2025</span>
@@ -97,28 +84,28 @@ export default function Home() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-4xl mx-auto">
               {isLive ? (
                 <div className="text-center">
-                  <h2 className="text-3xl font-bold text-yellow-400 mb-4">🎉 The Summit is Live!</h2>
-                  <p className="text-xl text-blue-100">Join us for an amazing day of empowerment and inspiration!</p>
+                  <h2 className="text-3xl font-bold text-blue-400 mb-4">The Summit is Live!</h2>
+                  <p className="text-xl text-yellow-100">Join us for an amazing day of empowerment and inspiration!</p>
                 </div>
               ) : (
                 <div className="text-center">
                   <h2 className="text-2xl font-bold mb-6">Summit Begins In:</h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-white/20 rounded-lg p-4">
-                      <div className="text-3xl font-bold text-yellow-400">{timeLeft.days}</div>
-                      <div className="text-sm text-blue-100">Days</div>
+                      <div className="text-3xl font-bold text-blue-400">{timeLeft.days}</div>
+                      <div className="text-sm text-yellow-100">Days</div>
                     </div>
                     <div className="bg-white/20 rounded-lg p-4">
-                      <div className="text-3xl font-bold text-yellow-400">{timeLeft.hours}</div>
-                      <div className="text-sm text-blue-100">Hours</div>
+                      <div className="text-3xl font-bold text-blue-400">{timeLeft.hours}</div>
+                      <div className="text-sm text-yellow-100">Hours</div>
                     </div>
                     <div className="bg-white/20 rounded-lg p-4">
-                      <div className="text-3xl font-bold text-yellow-400">{timeLeft.minutes}</div>
-                      <div className="text-sm text-blue-100">Minutes</div>
+                      <div className="text-3xl font-bold text-blue-400">{timeLeft.minutes}</div>
+                      <div className="text-sm text-yellow-100">Minutes</div>
                     </div>
                     <div className="bg-white/20 rounded-lg p-4">
-                      <div className="text-3xl font-bold text-yellow-400">{timeLeft.seconds}</div>
-                      <div className="text-sm text-blue-100">Seconds</div>
+                      <div className="text-3xl font-bold text-blue-400">{timeLeft.seconds}</div>
+                      <div className="text-sm text-yellow-100">Seconds</div>
                     </div>
                   </div>
                 </div>
@@ -134,7 +121,7 @@ export default function Home() {
                   Register to Attend
                 </Button>
               </Link>
-              <p className="text-sm text-blue-200">Limited seats available • Register now to secure your spot</p>
+              <p className="text-sm text-yellow-200">Limited seats available • Register now to secure your spot</p>
             </div>
           </div>
         </div>
@@ -153,10 +140,10 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-yellow-400" />
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-yellow-900" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-gray-900">Inspiring Speakers</CardTitle>
               </CardHeader>
@@ -173,10 +160,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-8 h-8 text-blue-900" />
+                  <Calendar className="w-8 h-8 text-yellow-900" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-gray-900">Rich Program</CardTitle>
               </CardHeader>
@@ -193,10 +180,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-8 h-8 text-yellow-400" />
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-8 h-8 text-yellow-900" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-gray-900">Kingdom Impact</CardTitle>
               </CardHeader>
@@ -217,9 +204,9 @@ export default function Home() {
       </section>
 
       {/* Featured Speaker Preview */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-slate-50">
+      <section className="py-20 bg-gradient-to-br from-orange-50 to-slate-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-8 md:p-12 text-white">
+          <div className="rounded-2xl p-8 md:p-12 text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
             <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
               <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-yellow-400 flex-shrink-0">
                 <img 
@@ -231,8 +218,8 @@ export default function Home() {
               <div className="text-center md:text-left">
                 <Badge className="bg-yellow-400 text-blue-900 mb-4">Featured Speaker</Badge>
                 <h3 className="text-3xl font-bold mb-2">CJ Maraga</h3>
-                <p className="text-xl text-yellow-400 mb-4">14th Chief Justice and President of the Supreme Court of Kenya</p>
-                <p className="text-lg text-blue-100 leading-relaxed mb-6">
+                <p className="text-xl text-white-900 mb-4">14th Chief Justice and President of the Supreme Court of Kenya</p>
+                <p className="text-lg text-yellow-100 leading-relaxed mb-6">
                   A distinguished Jurist who served as the 14th Chief Justice and President of the Supreme Court of Kenya, active in civic life and mentoring youth.
                 </p>
                 <Link href="/speakers">
@@ -261,9 +248,9 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {[2024, 2023, 2022].map((year, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
+              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
                 <CardContent className="p-0">
-                  <div className="aspect-video bg-gradient-to-br from-blue-900 to-blue-800 rounded-t-lg relative overflow-hidden">
+                  <div className="aspect-video bg-gradient-to-br from-blue-900 to-blue-800 rounded-t-lg relative overflow-hidden" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
                     <img 
                       src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=400&h=200&fit=crop"
                       alt={`Summit ${year}`}
@@ -286,7 +273,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <Button className="bg-red-600 hover:bg-red-700 text-white">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
               <Play className="w-4 h-4 mr-2" />
               Watch Last Year's Highlights
             </Button>
@@ -303,7 +290,7 @@ export default function Home() {
           <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
             Join us at the YPE Summit 2025 and be part of a community that's committed to excellence, integrity, and Kingdom impact in the marketplace.
           </p>
-          <div className="space-x-4">
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <Link href="/register">
               <Button 
                 size="lg" 
@@ -341,19 +328,20 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
-                <Link href="/" className="block text-gray-400 hover:text-white transition-colors">Home</Link>
-                <Link href="/speakers" className="block text-gray-400 hover:text-white transition-colors">Speakers</Link>
-                <Link href="/program" className="block text-gray-400 hover:text-white transition-colors">Program</Link>
-                <Link href="/register" className="block text-gray-400 hover:text-white transition-colors">Register</Link>
-                <Link href="/about" className="block text-gray-400 hover:text-white transition-colors">About</Link>
+                <Link href="/" className="block text-gray-400 hover:text-blue-900 transition-colors">Home</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
+                <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
+                <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
+                <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <div className="space-y-3 text-gray-400">
-                <p>info@ypesummit.co.ke</p>
-                <p>+254 700 000 000</p>
+                <p>aysmwangaza@gmail.com</p>
+                <p> +254117476172</p>
                 <p>Nairobi, Kenya</p>
               </div>
             </div>
@@ -381,7 +369,7 @@ export default function Home() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
           </div>
         </div>
       </footer>

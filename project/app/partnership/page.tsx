@@ -15,6 +15,7 @@ import { createPartnership } from '@/actions/partnerships';
 import { partnershipSchema, formatValidationErrors } from '@/lib/validations';
 import { SUPPORT_TYPES } from '@/types';
 import { Logo } from '@/components/Logo';
+import { Navigation } from '@/components/Navigation';
 
 export default function Partnership() {
   const [partnerSubmitting, setPartnerSubmitting] = useState(false);
@@ -87,7 +88,7 @@ export default function Partnership() {
         "Social media mentions",
         "Recognition during opening ceremony"
       ],
-      color: "from-yellow-400 to-yellow-600"
+      color: "from-blue-400 to-blue-600"
     },
     {
       title: "Silver Partner",
@@ -109,7 +110,7 @@ export default function Partnership() {
         "Social media mention",
         "Certificate of partnership"
       ],
-      color: "from-orange-400 to-orange-600"
+      color: "from-blue-400 to-blue-600"
     }
   ];
 
@@ -139,21 +140,7 @@ export default function Partnership() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Logo variant="header" />
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</Link>
-              <Link href="/speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</Link>
-              <Link href="/program" className="text-gray-700 hover:text-blue-900 transition-colors">Program</Link>
-              <Link href="/register" className="text-gray-700 hover:text-blue-900 transition-colors">Register</Link>
-              <Link href="/partnership" className="text-blue-900 font-semibold">Partnership</Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-900 transition-colors">About</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">

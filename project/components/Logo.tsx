@@ -11,9 +11,9 @@ export function Logo({ variant = 'header', className = '' }: LogoProps) {
   
   return (
     <Link href="/" className={`flex items-center space-x-3 group ${className}`}>
-      <div className={`relative ${isFooter ? 'w-12 h-12' : 'w-10 h-10 sm:w-12 sm:h-12'} flex-shrink-0`}>
+      <div className={`relative ${isFooter ? 'w-16 h-16' : 'w-12 h-12 sm:w-16 sm:h-16'} flex-shrink-0`}>
         <Image
-          src="/logo.jpeg"
+          src="/logo.png"
           alt="MAYS Young Professionals and Entrepreneurs Summit"
           fill
           className="object-contain rounded-lg group-hover:scale-105 transition-transform duration-200"
@@ -26,7 +26,7 @@ export function Logo({ variant = 'header', className = '' }: LogoProps) {
             ? 'text-lg sm:text-xl' 
             : 'text-lg sm:text-xl md:text-2xl'
         }`}>
-          MAYS Summit 2025
+          YPE Summit
         </h1>
         <p className={`text-sm ${
           isFooter 

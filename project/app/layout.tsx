@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
+import { FloatingQuestionButton } from '@/components/FloatingQuestionButton';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -58,12 +59,13 @@ export default function RootLayout({
           position="top-right"
           toastOptions={{
             style: {
-              background: '#1e3a5f',
+              background: '#d4af37',
               color: 'white',
               border: '1px solid #d4af37',
             },
           }}
         />
+        <FloatingQuestionButton />
       </body>
     </html>
   );

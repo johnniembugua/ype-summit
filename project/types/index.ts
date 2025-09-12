@@ -6,7 +6,7 @@ export type Registration = {
   phone: string;
   profession: string;
   church?: string | null;
-  workshopPreference: string;
+  areaOfInterest: string;
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   paymentMethod?: string | null;
   paymentReference?: string | null;
@@ -60,7 +60,7 @@ export type RegistrationFormData = {
   phone: string;
   profession: string;
   church?: string;
-  workshopPreference: string;
+  areaOfInterest: string;
 };
 
 export type QuestionFormData = {
@@ -108,20 +108,26 @@ export type PartnershipStats = {
   declined: number;
 };
 
-// Workshop preferences
-export type WorkshopPreference = 
+// Area of interest preferences
+export type AreaOfInterest = 
+  | 'professional_growth'
+  | 'entrepreneurship'
   | 'leadership'
+  | 'finance'
+  | 'technology'
   | 'healthcare'
-  | 'enterprise'
-  | 'business'
-  | 'finance';
+  | 'education'
+  | 'ministry';
 
-export const WORKSHOP_OPTIONS = {
-  leadership: 'Leadership with Integrity (CJ Maraga)',
-  healthcare: 'Healthcare Excellence (Dr. Dorothy Mbori-Ngacha)',
-  enterprise: 'Enterprise Development (Mr. Josphat Mokaya)',
-  business: 'Strategic Business Growth (Mr. Erick Macakiage)',
-  finance: 'Financial Leadership (FCPA. Edwin Makori)',
+export const AREA_OF_INTEREST_OPTIONS = {
+  professional_growth: 'Professional Growth & Career Development',
+  entrepreneurship: 'Entrepreneurship & Business Innovation',
+  leadership: 'Leadership & Management',
+  finance: 'Financial Planning & Investment',
+  technology: 'Technology & Digital Innovation',
+  healthcare: 'Healthcare & Medical Fields',
+  education: 'Education & Academic Development',
+  ministry: 'Ministry & Spiritual Growth',
 } as const;
 
 // Support types

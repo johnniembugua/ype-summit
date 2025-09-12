@@ -23,9 +23,9 @@ export const registrationSchema = z.object({
     .string()
     .max(255, 'Church name must be less than 255 characters')
     .optional(),
-  workshopPreference: z
-    .enum(['leadership', 'healthcare', 'enterprise', 'business', 'finance'], {
-      required_error: 'Please select a workshop preference',
+  areaOfInterest: z
+    .enum(['professional_growth', 'entrepreneurship', 'leadership', 'finance', 'technology', 'healthcare', 'education', 'ministry'], {
+      required_error: 'Please select an area of interest',
     }),
 });
 

@@ -2,10 +2,11 @@
 
 import { Award, ArrowLeft, Download, Clock, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
+import { Navigation } from '@/components/Navigation';
 
 export default function Program() {
   const program = [
@@ -144,11 +145,11 @@ export default function Program() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'keynote': return 'bg-yellow-400 text-blue-900';
+      case 'keynote': return 'bg-blue-400 text-blue-900';
       case 'worship': return 'bg-blue-900 text-white';
       case 'panel': return 'bg-green-600 text-white';
       case 'workshop': return 'bg-purple-600 text-white';
-      case 'interactive': return 'bg-orange-600 text-white';
+      case 'interactive': return 'bg-blue-600 text-white';
       case 'meal': return 'bg-red-600 text-white';
       case 'break': return 'bg-gray-500 text-white';
       case 'presentation': return 'bg-indigo-600 text-white';
@@ -160,21 +161,7 @@ export default function Program() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Logo variant="header" />
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-blue-900 transition-colors">Home</Link>
-              <Link href="/speakers" className="text-gray-700 hover:text-blue-900 transition-colors">Speakers</Link>
-              <Link href="/program" className="text-blue-900 font-semibold">Program</Link>
-              <Link href="/register" className="text-gray-700 hover:text-blue-900 transition-colors">Register</Link>
-              <Link href="/partnership" className="text-gray-700 hover:text-blue-900 transition-colors">Partnership</Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-900 transition-colors">About</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
@@ -197,7 +184,7 @@ export default function Program() {
                   Back to Home
                 </Button>
               </Link>
-              <Button className="bg-yellow-400 hover:bg-yellow-500 text-blue-900">
+              <Button className="bg-blue-400 hover:bg-blue-500 text-blue-900">
                 <Download className="w-4 h-4 mr-2" />
                 Download Full Program PDF
               </Button>
@@ -213,7 +200,7 @@ export default function Program() {
             <Card className="text-center border-0 bg-gradient-to-br from-blue-50 to-white">
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-8 h-8 text-yellow-400" />
+                  <Clock className="w-8 h-8 text-blue-400" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Duration</h3>
                 <p className="text-gray-600">8:30 AM - 6:00 PM</p>
@@ -221,9 +208,9 @@ export default function Program() {
               </CardContent>
             </Card>
 
-            <Card className="text-center border-0 bg-gradient-to-br from-yellow-50 to-white">
+            <Card className="text-center border-0 bg-gradient-to-br from-blue-50 to-white">
               <CardContent className="p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MapPin className="w-8 h-8 text-blue-900" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Location</h3>
@@ -235,7 +222,7 @@ export default function Program() {
             <Card className="text-center border-0 bg-gradient-to-br from-blue-50 to-white">
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-yellow-400" />
+                  <Users className="w-8 h-8 text-blue-400" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Capacity</h3>
                 <p className="text-gray-600">Limited Seats</p>
@@ -261,8 +248,8 @@ export default function Program() {
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
               {program.map((item, index) => (
-                <div key={index} className="flex items-start space-x-6 group">
-                  <div className="flex-shrink-0 w-24 text-right">
+                <div key={index} className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-6 group">
+                  <div className="flex-shrink-0 w-full md:w-24 text-left md:text-right">
                     <span className="text-lg font-bold text-blue-900">{item.time}</span>
                     <p className="text-sm text-gray-500">{item.duration}</p>
                   </div>
@@ -270,8 +257,8 @@ export default function Program() {
                   <div className="flex-1 pb-6">
                     <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-md hover:shadow-lg transition-shadow">
                       <CardContent className="p-6">
-                        <div className="flex items-start justify-between mb-3">
-                          <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
+                          <h3 className="text-xl font-bold text-gray-900 mb-2 sm:mb-0">{item.title}</h3>
                           <Badge className={`text-xs ${getTypeColor(item.type)}`}>
                             {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
                           </Badge>
@@ -304,7 +291,7 @@ export default function Program() {
               <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-blue-50">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-gray-900">{workshop.title}</CardTitle>
-                  <CardDescription className="text-yellow-600 font-semibold">
+                  <CardDescription className="text-blue-600 font-semibold">
                     Facilitated by {workshop.facilitator}
                   </CardDescription>
                 </CardHeader>
@@ -322,7 +309,7 @@ export default function Program() {
           </div>
 
           <div className="text-center mt-12">
-            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-lg p-6 max-w-2xl mx-auto">
+            <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-lg p-6 max-w-2xl mx-auto">
               <h3 className="text-xl font-bold text-blue-900 mb-2">Workshop Selection</h3>
               <p className="text-blue-900">
                 You'll choose your preferred workshop track during registration. Spaces are limited and allocated on a first-come, first-served basis.
@@ -354,7 +341,7 @@ export default function Program() {
               <Card key={index} className="text-center border-0 bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-yellow-400 font-bold text-lg">✓</span>
+                    <span className="text-blue-400 font-bold text-lg">✓</span>
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm">{item.description}</p>
