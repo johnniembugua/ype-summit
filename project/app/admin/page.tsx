@@ -5,24 +5,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Shield, RefreshCw, LogOut } from 'lucide-react';
+import { Loader2, Shield, RefreshCw, LogOut, Linkedin, Twitter } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { DashboardOverview } from '@/components/admin/dashboard-overview';
 import { RegistrationsTable } from '@/components/admin/registrations-table';
 import { QuestionsTable } from '@/components/admin/questions-table';
 import { PartnershipsTable } from '@/components/admin/partnerships-table';
+import { ExhibitorsTable } from '@/components/admin/exhibitors-table';
 import { AdminAuth } from '@/components/admin/admin-auth';
 import { Logo } from '@/components/Logo';
+import Link from 'next/link';
 
 import {
   getDashboardStats,
   getAllRegistrationsForAdmin,
   getAllQuestionsForAdmin,
   getAllPartnershipsForAdmin,
+  getAllExhibitorsForAdmin,
 } from '@/actions/admin';
 
-import { Registration, Question, Partnership } from '@/types';
+import { Registration, Question, Partnership, Exhibitor } from '@/types';
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -34,20 +37,23 @@ export default function AdminDashboard() {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [partnerships, setPartnerships] = useState<Partnership[]>([]);
+  const [exhibitors, setExhibitors] = useState<Exhibitor[]>([]);
 
   const fetchData = async () => {
     try {
-      const [statsResult, registrationsResult, questionsResult, partnershipsResult] = await Promise.all([
+      const [statsResult, registrationsResult, questionsResult, partnershipsResult, exhibitorsResult] = await Promise.all([
         getDashboardStats(),
         getAllRegistrationsForAdmin(),
         getAllQuestionsForAdmin(),
         getAllPartnershipsForAdmin(),
+        getAllExhibitorsForAdmin(),
       ]);
 
       if (statsResult.success) setStats(statsResult.data);
-      if (registrationsResult.success) setRegistrations(registrationsResult.data);
-      if (questionsResult.success) setQuestions(questionsResult.data);
-      if (partnershipsResult.success) setPartnerships(partnershipsResult.data);
+      if (registrationsResult.success) setRegistrations(registrationsResult.data || []);
+      if (questionsResult.success) setQuestions(questionsResult.data || []);
+      if (partnershipsResult.success) setPartnerships(partnershipsResult.data || []);
+      if (exhibitorsResult.success) setExhibitors(exhibitorsResult.data || []);
 
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -141,12 +147,12 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-[600px] mx-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:w-[800px] mx-auto">
             <TabsTrigger value="overview" className="flex items-center space-x-2">
               <span>Overview</span>
               {stats && (
                 <Badge variant="secondary" className="ml-1">
-                  {stats.registrations.total + stats.questions.total + stats.partnerships.total}
+                  {stats.registrations.total + stats.questions.total + stats.partnerships.total + stats.exhibitors.total}
                 </Badge>
               )}
             </TabsTrigger>
@@ -171,6 +177,14 @@ export default function AdminDashboard() {
               {partnerships.length > 0 && (
                 <Badge variant="secondary" className="ml-1">
                   {partnerships.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="exhibitors" className="flex items-center space-x-2">
+              <span>Exhibitors</span>
+              {exhibitors.length > 0 && (
+                <Badge variant="secondary" className="ml-1">
+                  {exhibitors.length}
                 </Badge>
               )}
             </TabsTrigger>
@@ -208,22 +222,80 @@ export default function AdminDashboard() {
               onUpdate={fetchData}
             />
           </TabsContent>
+
+          <TabsContent value="exhibitors" className="space-y-6">
+            <ExhibitorsTable 
+              exhibitors={exhibitors} 
+              onUpdate={fetchData}
+            />
+          </TabsContent>
         </Tabs>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <Logo variant="footer" />
-            <Badge className="bg-red-600 text-white">Admin Panel</Badge>
+     {/* Footer */}
+     <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="mb-4">
+                <Logo variant="footer" />
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <div className="space-y-2">
+                <Link href="/" className="block text-gray-400 hover:text-white transition-colors">Home</Link>
+                <Link href="/speakers" className="block text-gray-400 hover:text-white transition-colors">Speakers</Link>
+                <Link href="/program" className="block text-gray-400 hover:text-white transition-colors">Program</Link>
+                <Link href="/register" className="block text-gray-400 hover:text-white transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-white transition-colors">About</Link>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+              <div className="space-y-3 text-gray-400">
+                <p>info@ypesummit.co.ke</p>
+                <p>+254 700 000 000</p>
+                <p>Nairobi, Kenya</p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
+              <div className="space-y-2 text-gray-400">
+                <p>Follow us on social media for updates</p>
+                <div className="flex space-x-4 mt-4">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">f</span>
+                  </div>
+                  <div className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">ig</span>
+                  </div>
+                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">wa</span>
+                  </div>
+                  <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">yt</span>
+                  </div>
+                  <a href="https://twitter.com/ypesummit" target="_blank" rel="noopener noreferrer">
+                    <Twitter className="w-10 h-10 text-gray-400" />
+                  </a>
+                  <a href="https://linkedin.com/in/ypesummit" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="w-10 h-10 text-gray-400" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-gray-400">
-            &copy; 2025 YPE Summit Admin Dashboard. All rights reserved.
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            Manage registrations, questions, and partnerships for the YPE Summit 2025
-          </p>
+
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+          </div>
         </div>
       </footer>
     </div>

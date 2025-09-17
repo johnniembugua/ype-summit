@@ -57,10 +57,38 @@ export const partnerships = pgTable("partnerships", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Exhibitors Table
+export const exhibitors = pgTable("exhibitors", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 20 }).notNull(),
+  companyName: varchar("company_name", { length: 255 }),
+  yearsOfOperation: varchar("years_of_operation", { length: 50 }),
+  website: varchar("website", { length: 500 }),
+  ideaTitle: varchar("idea_title", { length: 255 }).notNull(),
+  category: varchar("category", { length: 100 }).notNull(),
+  fieldOfFocus: varchar("field_of_focus", { length: 255 }).notNull(),
+  areasOfInterest: varchar("areas_of_interest", { length: 500 }),
+  uniqueness: text("uniqueness").notNull(),
+  summary: text("summary").notNull(),
+  businessModel: text("business_model").notNull(),
+  targetMarket: text("target_market").notNull(),
+  wantToTeamUp: varchar("want_to_team_up", { length: 10 }).notNull(), // yes, no
+  lookingFor: text("looking_for"),
+  sdgAlignment: text("sdg_alignment").notNull(), // JSON array of selected SDGs
+  otherSdg: varchar("other_sdg", { length: 500 }),
+  status: varchar("status", { length: 20 }).default("pending").notNull(), // pending, reviewed, approved, rejected
+  reviewedAt: timestamp("reviewed_at"),
+  reviewedBy: varchar("reviewed_by", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Event Analytics Table (for tracking event metrics)
 export const eventAnalytics = pgTable("event_analytics", {
   id: uuid("id").defaultRandom().primaryKey(),
-  eventType: varchar("event_type", { length: 50 }).notNull(), // registration, question_submission, partnership_inquiry
+  eventType: varchar("event_type", { length: 50 }).notNull(), // registration, question_submission, partnership_inquiry, exhibitor_submission
   ipAddress: varchar("ip_address", { length: 45 }),
   userAgent: text("user_agent"),
   referrer: varchar("referrer", { length: 500 }),

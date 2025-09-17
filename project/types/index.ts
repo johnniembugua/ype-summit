@@ -45,9 +45,36 @@ export type Partnership = {
   updatedAt: Date;
 };
 
+export type Exhibitor = {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  companyName?: string | null;
+  yearsOfOperation?: string | null;
+  website?: string | null;
+  ideaTitle: string;
+  category: string;
+  fieldOfFocus: string;
+  areasOfInterest?: string | null;
+  uniqueness: string;
+  summary: string;
+  businessModel: string;
+  targetMarket: string;
+  wantToTeamUp: 'yes' | 'no';
+  lookingFor?: string | null;
+  sdgAlignment: string; // JSON array of selected SDGs
+  otherSdg?: string | null;
+  status: 'pending' | 'reviewed' | 'approved' | 'rejected';
+  reviewedAt?: Date | null;
+  reviewedBy?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type EventAnalytics = {
   id: string;
-  eventType: 'registration' | 'question_submission' | 'partnership_inquiry';
+  eventType: 'registration' | 'question_submission' | 'partnership_inquiry' | 'exhibitor_submission';
   ipAddress?: string | null;
   userAgent?: string | null;
   referrer?: string | null;
@@ -79,6 +106,27 @@ export type PartnershipFormData = {
   message?: string;
 };
 
+export type ExhibitorFormData = {
+  fullName: string;
+  email: string;
+  phone: string;
+  companyName?: string;
+  yearsOfOperation?: string;
+  website?: string;
+  ideaTitle: string;
+  category: string;
+  fieldOfFocus: string;
+  areasOfInterest?: string;
+  uniqueness: string;
+  summary: string;
+  businessModel: string;
+  targetMarket: string;
+  wantToTeamUp: 'yes' | 'no';
+  lookingFor?: string;
+  sdgAlignment: string[];
+  otherSdg?: string;
+};
+
 // API response types
 export type ApiResponse<T = any> = {
   success: boolean;
@@ -107,6 +155,14 @@ export type PartnershipStats = {
   contacted: number;
   confirmed: number;
   declined: number;
+};
+
+export type ExhibitorStats = {
+  total: number;
+  pending: number;
+  reviewed: number;
+  approved: number;
+  rejected: number;
 };
 
 // Area of interest preferences
