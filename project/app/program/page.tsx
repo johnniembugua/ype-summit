@@ -1,6 +1,6 @@
 'use client';
 
-import { Award, ArrowLeft, Download, Clock, MapPin, Users } from 'lucide-react';
+import { Award, ArrowLeft, Download, Clock, MapPin, Users, Youtube, Facebook, Twitter, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,135 +11,144 @@ import { Navigation } from '@/components/Navigation';
 export default function Program() {
   const program = [
     { 
-      time: '08:30 AM', 
-      title: 'Registration & Welcome', 
-      description: 'Check-in, welcome refreshments, and networking',
+      time: '8:00 AM', 
+      title: 'Arrival and Registration', 
+      description: 'Check-in and registration for all attendees',
       duration: '30 min',
       type: 'logistics'
     },
     { 
-      time: '09:00 AM', 
-      title: 'Opening Worship', 
-      description: 'Welcome & Spiritual Preparation led by YPE Worship Team',
-      duration: '30 min',
+      time: '8:30 AM', 
+      title: 'Singing Session', 
+      description: 'Led by Choristers',
+      duration: '15 min',
       type: 'worship'
     },
     { 
-      time: '09:30 AM', 
-      title: 'Keynote Address', 
-      description: 'Hon. David Maraga - "Leadership with Integrity: Principles for Kingdom-Minded Professionals"',
-      duration: '45 min',
-      type: 'keynote'
+      time: '8:45 AM', 
+      title: 'Morning Devotion/Sermonette', 
+      description: 'Spiritual preparation for the day',
+      duration: '10 min',
+      type: 'worship'
     },
     { 
-      time: '10:15 AM', 
-      title: 'Coffee Break', 
-      description: 'Networking and refreshments',
-      duration: '15 min',
-      type: 'break'
+      time: '8:55 AM', 
+      title: 'Opening Prayers', 
+      description: 'Official opening prayers',
+      duration: '5 min',
+      type: 'worship'
     },
     { 
-      time: '10:30 AM', 
-      title: 'Panel Discussion', 
-      description: 'Purpose in the Marketplace - Featuring Dr. Dorothy Mbori-Ngacha, Mr. Josphat Mokaya, and Mr. Erick Macakiage',
-      duration: '60 min',
-      type: 'panel'
-    },
-    { 
-      time: '11:30 AM', 
-      title: 'Q&A Session', 
-      description: 'Interactive discussion with panel speakers',
-      duration: '30 min',
-      type: 'interactive'
-    },
-    { 
-      time: '12:00 PM', 
-      title: 'Networking Break', 
-      description: 'Light refreshments and professional networking',
-      duration: '30 min',
-      type: 'break'
-    },
-    { 
-      time: '12:30 PM', 
-      title: 'Lunch & Networking', 
-      description: 'Connect with fellow professionals over lunch',
-      duration: '90 min',
-      type: 'meal'
-    },
-    { 
-      time: '02:00 PM', 
-      title: 'Breakout Workshops', 
-      description: 'Choose from 4 specialized tracks: Innovation, Finance, Healthcare, Media',
-      duration: '90 min',
-      type: 'workshop'
-    },
-    { 
-      time: '03:30 PM', 
-      title: 'Workshop Presentations', 
-      description: 'Key insights and takeaways from each workshop track',
-      duration: '30 min',
+      time: '9:00 AM', 
+      title: 'Introduction: Business Pitch / Exhibition Awareness', 
+      description: 'Introduction to business pitch and exhibition opportunities',
+      duration: '20 min',
       type: 'presentation'
     },
     { 
-      time: '04:00 PM', 
-      title: 'Afternoon Tea', 
-      description: 'Refreshments and continued networking',
-      duration: '30 min',
+      time: '9:20 AM', 
+      title: 'Soft Skills and Personal Development Workshop', 
+      description: 'Comprehensive workshop covering: 1. Emotional intelligence & resilience, 2. Stress management, 3. Time management & productivity, 4. Public speaking & communication skills, 5. Mental health & wellness for young professionals',
+      duration: '60 min',
+      type: 'workshop'
+    },
+    { 
+      time: '10:20 AM', 
+      title: 'Short Break / Music', 
+      description: 'Networking break with music',
+      duration: '10 min',
       type: 'break'
     },
     { 
-      time: '04:30 PM', 
-      title: 'Live Q&A Session', 
-      description: 'Real-time questions from attendees answered by all speakers',
-      duration: '45 min',
-      type: 'interactive'
+      time: '10:40 AM', 
+      title: 'Break-out Sessions (3 Groups)', 
+      description: '1. Entrepreneurship & Business Development, 2. Career Growth & Professional Development, 3. Innovation & Emerging Trends',
+      duration: '80 min',
+      type: 'workshop'
     },
     { 
-      time: '05:15 PM', 
-      title: 'Closing Address', 
-      description: 'Commissioning and next steps for Kingdom impact',
-      duration: '15 min',
+      time: '12:00 PM', 
+      title: 'Introduction of Keynote Speaker', 
+      description: 'Introduction of the Chief Guest',
+      duration: '10 min',
+      type: 'presentation'
+    },
+    { 
+      time: '12:10 PM', 
+      title: 'Keynote Speech: Harnessing the Power of Networking', 
+      description: 'Keynote address by Chief Guest [CJ Maraga]',
+      duration: '50 min',
+      type: 'keynote'
+    },
+    { 
+      time: '1:00 PM', 
+      title: 'Lunch & Networking', 
+      description: 'Lunch break with networking opportunities',
+      duration: '60 min',
+      type: 'meal'
+    },
+    { 
+      time: '2:10 PM', 
+      title: 'Break-out Sessions (3 Groups)', 
+      description: '1. Entrepreneurship & Business Development, 2. Career Growth & Professional Development, 3. Innovation & Emerging Trends',
+      duration: '60 min',
+      type: 'workshop'
+    },
+    { 
+      time: '3:10 PM', 
+      title: 'Panelist Round-Up', 
+      description: 'Key takeaways from the workshops with Question and Answers',
+      duration: '20 min',
+      type: 'panel'
+    },
+    { 
+      time: '3:30 PM', 
+      title: 'Gifting', 
+      description: 'Recognition and gifting session',
+      duration: '20 min',
+      type: 'presentation'
+    },
+    { 
+      time: '3:50 PM', 
+      title: 'Closing Remarks/Vote of Thanks', 
+      description: 'Final remarks and expressions of gratitude',
+      duration: '5 min',
       type: 'closing'
     },
     { 
-      time: '05:30 PM', 
-      title: 'Closing Worship', 
-      description: 'Commissioning, blessing, and closing prayer',
-      duration: '30 min',
+      time: '3:55 PM', 
+      title: 'Closing Prayer', 
+      description: 'Final prayer to close the summit',
+      duration: '5 min',
       type: 'worship'
+    },
+    { 
+      time: '4:00 PM', 
+      title: 'The End! Networking/Photo Session', 
+      description: 'Final networking and photo opportunities',
+      duration: 'Ongoing',
+      type: 'networking'
     }
   ];
 
   const workshops = [
     {
-      title: "Leadership with Integrity",
-      facilitator: "CJ Maraga",
-      description: "Learn principles of ethical leadership and governance from Kenya's former Chief Justice, focusing on integrity in professional life.",
+      title: "Entrepreneurship & Business Development",
+      facilitator: "Various Facilitators",
+      description: "Focus on business development strategies, entrepreneurship skills, and practical business growth techniques. Learn how to start, manage, and scale businesses effectively.",
       capacity: "30 participants"
     },
     {
-      title: "Healthcare Excellence",
-      facilitator: "Dr. Dorothy Mbori-Ngacha",
-      description: "Explore best practices in healthcare delivery, public health strategies, and serving communities with medical expertise.",
-      capacity: "25 participants"
+      title: "Career Growth & Professional Development",
+      facilitator: "Various Facilitators", 
+      description: "Comprehensive career development strategies, professional growth techniques, and advancement opportunities in various industries. Focus on skill development and career progression.",
+      capacity: "30 participants"
     },
     {
-      title: "Enterprise Development",
-      facilitator: "Mr. Josphat Mokaya",
-      description: "Discover how to develop sustainable enterprises, mentor SMEs, and drive climate action through business innovation.",
-      capacity: "25 participants"
-    },
-    {
-      title: "Strategic Business Growth",
-      facilitator: "Mr. Erick Macakiage",
-      description: "Learn strategic solutions for business growth, corporate mentorship, and building profitable sustainable enterprises.",
-      capacity: "20 participants"
-    },
-    {
-      title: "Financial Leadership",
-      facilitator: "FCPA. Edwin Makori",
-      description: "Master strategic finance, business development, and innovative financial leadership for transformative results.",
-      capacity: "25 participants"
+      title: "Innovation & Emerging Trends",
+      facilitator: "Various Facilitators",
+      description: "Explore cutting-edge innovations, emerging technologies, and future trends across various industries. Learn about disruptive technologies and innovative solutions.",
+      capacity: "30 participants"
     }
   ];
 
@@ -154,6 +163,7 @@ export default function Program() {
       case 'break': return 'bg-gray-500 text-white';
       case 'presentation': return 'bg-indigo-600 text-white';
       case 'closing': return 'bg-blue-800 text-white';
+      case 'networking': return 'bg-yellow-400 text-blue-900';
       default: return 'bg-gray-400 text-white';
     }
   };
@@ -164,12 +174,12 @@ export default function Program() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
+      <section className="relative text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-16 text-center">
           <div className="space-y-6">
             <Badge className="bg-yellow-400 text-blue-900 text-sm font-semibold px-4 py-2">
-              Event Program
+              <FileText className="w-4 h-4" />
             </Badge>
             <h1 className="text-3xl md:text-5xl font-bold leading-tight">
               A Day of Transformation
@@ -178,13 +188,7 @@ export default function Program() {
               A carefully curated program designed to empower your professional journey through inspiring sessions, practical workshops, and meaningful connections.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <Link href="/">
-                <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Home
-                </Button>
-              </Link>
-              <Button className="bg-blue-400 hover:bg-blue-500 text-blue-900">
+              <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30">
                 <Download className="w-4 h-4 mr-2" />
                 Download Full Program PDF
               </Button>
@@ -203,7 +207,7 @@ export default function Program() {
                   <Clock className="w-8 h-8 text-blue-400" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Duration</h3>
-                <p className="text-gray-600">8:30 AM - 6:00 PM</p>
+                <p className="text-gray-600">8:00 AM - 4:00 PM</p>
                 <p className="text-sm text-gray-500">Full day experience</p>
               </CardContent>
             </Card>
@@ -301,7 +305,7 @@ export default function Program() {
                     <Badge variant="outline" className="text-blue-900 border-blue-900">
                       {workshop.capacity}
                     </Badge>
-                    <span className="text-sm text-gray-500">2:00 PM - 3:30 PM</span>
+                    <span className="text-sm text-gray-500">2:10 PM - 3:10 PM</span>
                   </div>
                 </CardContent>
               </Card>
@@ -309,76 +313,12 @@ export default function Program() {
           </div>
 
           <div className="text-center mt-12">
-            <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-lg p-6 max-w-2xl mx-auto">
-              <h3 className="text-xl font-bold text-blue-900 mb-2">Workshop Selection</h3>
-              <p className="text-blue-900">
+            <div className="rounded-lg p-6 max-w-2xl mx-auto" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
+              <h3 className="text-xl font-bold text-white mb-2">Workshop Selection</h3>
+              <p className="text-white">
                 You'll choose your preferred workshop track during registration. Spaces are limited and allocated on a first-come, first-served basis.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What's Included */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-slate-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What's Included
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your free registration includes everything you need for a transformative day.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { title: "All Sessions", description: "Access to keynote, panels, and workshops" },
-              { title: "Meals & Refreshments", description: "Lunch, tea breaks, and networking refreshments" },
-              { title: "Digital Materials", description: "Presentation slides and resource materials" },
-              { title: "Certificate", description: "Certificate of participation and completion" }
-            ].map((item, index) => (
-              <Card key={index} className="text-center border-0 bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-blue-400 font-bold text-lg">✓</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Transform Your Professional Journey?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Don't miss this opportunity to learn, grow, and connect with like-minded Kingdom professionals.
-          </p>
-          <div className="space-x-4">
-            <Link href="/register">
-              <Button 
-                size="lg" 
-                className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
-              >
-                Register Now
-              </Button>
-            </Link>
-            <Link href="/speakers">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3 text-lg"
-              >
-                Meet Our Speakers
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
@@ -389,29 +329,30 @@ export default function Program() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="mb-4">
-                <Logo variant="footer" />
+                <Logo variant="footer" width={80} height={80} />
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.
+                Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.
               </p>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
-                <Link href="/" className="block text-gray-400 hover:text-white transition-colors">Home</Link>
-                <Link href="/speakers" className="block text-gray-400 hover:text-white transition-colors">Speakers</Link>
-                <Link href="/program" className="block text-gray-400 hover:text-white transition-colors">Program</Link>
-                <Link href="/register" className="block text-gray-400 hover:text-white transition-colors">Register</Link>
-                <Link href="/about" className="block text-gray-400 hover:text-white transition-colors">About</Link>
+                <Link href="/" className="block text-gray-400 hover:text-blue-900 transition-colors">Home</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
+                <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
+                <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
+                <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <div className="space-y-3 text-gray-400">
-                <p>info@ypesummit.co.ke</p>
-                <p>+254 700 000 000</p>
+                <p>aysmwangaza@gmail.com</p>
+                <p> +254117476172</p>
                 <p>Nairobi, Kenya</p>
               </div>
             </div>
@@ -421,25 +362,34 @@ export default function Program() {
               <div className="space-y-2 text-gray-400">
                 <p>Follow us on social media for updates</p>
                 <div className="flex space-x-4 mt-4">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">f</span>
-                  </div>
-                  <div className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">ig</span>
-                  </div>
-                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">wa</span>
-                  </div>
-                  <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">yt</span>
-                  </div>
+                  <a
+                    href="#"
+                    aria-label="Facebook"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Facebook className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="Twitter"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Twitter className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="YouTube"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Youtube className="w-5 h-5 text-white" />
+                  </a>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Mwangaza Adventist Youth Society YPE Band</p>
           </div>
         </div>
       </footer>

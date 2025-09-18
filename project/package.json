@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate:docs && next build",
     "start": "next start",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:docs": "tsx scripts/generate-docs-manifest.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -55,10 +56,12 @@
     "embla-carousel-react": "^8.3.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
+    "google-photos-album-image-url-fetch": "^3.2.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.446.0",
     "next": "13.5.1",
     "next-themes": "^0.3.0",
+    "nodemailer": "^6.10.1",
     "pg": "^8.16.3",
     "postcss": "8.4.30",
     "react": "18.2.0",

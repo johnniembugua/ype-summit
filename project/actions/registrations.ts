@@ -4,6 +4,7 @@ import { db } from '@/db';
 import { registrations, eventAnalytics } from '@/db/schema';
 import { eq, count } from 'drizzle-orm';
 import { headers } from 'next/headers';
+import { emailService } from '@/lib/email';
 
 export interface RegistrationData {
   fullName: string;
@@ -11,7 +12,7 @@ export interface RegistrationData {
   phone: string;
   profession: string;
   church?: string;
-  workshopPreference: string;
+  areaOfInterest: string;
 }
 
 export async function createRegistration(data: RegistrationData) {
@@ -45,7 +46,7 @@ export async function createRegistration(data: RegistrationData) {
         phone: data.phone,
         profession: data.profession,
         church: data.church || null,
-        workshopPreference: data.workshopPreference,
+        workshopPreference: data.areaOfInterest,
         paymentStatus: 'pending',
       })
       .returning();

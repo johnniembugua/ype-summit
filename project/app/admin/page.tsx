@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Shield, RefreshCw, LogOut } from 'lucide-react';
+import { Loader2, Shield, RefreshCw, LogOut, LayoutDashboard, Users, MessageSquare, Handshake, Menu, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { DashboardOverview } from '@/components/admin/dashboard-overview';
@@ -29,6 +28,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const [stats, setStats] = useState<any>(null);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -103,129 +103,202 @@ export default function AdminDashboard() {
     );
   }
 
+  const navigationItems = [
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard, count: stats ? stats.registrations.total + stats.questions.total + stats.partnerships.total : 0 },
+    { id: 'registrations', label: 'Registrations', icon: Users, count: registrations.length },
+    { id: 'questions', label: 'Questions', icon: MessageSquare, count: questions.length },
+    { id: 'partnerships', label: 'Partnerships', icon: Handshake, count: partnerships.length },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex">
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white/95 backdrop-blur-sm rounded-r-2xl shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 lg:rounded-r-none lg:shadow-lg ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center space-x-3">
               <Logo variant="header" />
               <Badge className="bg-red-100 text-red-800 border-red-200">
                 <Shield className="w-3 h-3 mr-1" />
-                Admin Dashboard
+                Admin
               </Badge>
             </div>
-            <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 px-4 py-6 space-y-2">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Icon className={`w-5 h-5 ${isActive ? 'text-blue-700' : 'text-gray-400'}`} />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.count > 0 && (
+                    <Badge 
+                      variant={isActive ? "default" : "secondary"}
+                      className={`text-xs ${isActive ? 'bg-blue-700' : ''}`}
+                    >
+                      {item.count}
+                    </Badge>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="p-4 border-t border-gray-200">
+            <div className="space-y-2">
               <Button
                 variant="outline"
                 size="sm"
+                className="w-full justify-start"
                 onClick={handleRefresh}
                 disabled={refreshing}
               >
                 <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-                Refresh
+                Refresh Data
               </Button>
-              <Button variant="outline" size="sm" onClick={() => window.location.href = '/'}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-start"
+                onClick={() => window.location.href = '/'}
+              >
                 View Site
               </Button>
-              <Button variant="outline" size="sm" onClick={handleLogout}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                onClick={handleLogout}
+              >
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </Button>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-[600px] mx-auto">
-            <TabsTrigger value="overview" className="flex items-center space-x-2">
-              <span>Overview</span>
-              {stats && (
-                <Badge variant="secondary" className="ml-1">
-                  {stats.registrations.total + stats.questions.total + stats.partnerships.total}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="registrations" className="flex items-center space-x-2">
-              <span>Registrations</span>
-              {registrations.length > 0 && (
-                <Badge variant="secondary" className="ml-1">
-                  {registrations.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="questions" className="flex items-center space-x-2">
-              <span>Questions</span>
-              {questions.length > 0 && (
-                <Badge variant="secondary" className="ml-1">
-                  {questions.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="partnerships" className="flex items-center space-x-2">
-              <span>Partnerships</span>
-              {partnerships.length > 0 && (
-                <Badge variant="secondary" className="ml-1">
-                  {partnerships.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-          </TabsList>
+      {/* <div className="min-h-screen flex flex-col"> */}
+      <div className="min-h-screen flex flex-col w-full max-w-screen-md md:max-w-screen-lg mx-auto px-4 sm:px-6 lg:max-w-none lg:mx-0">
+        {/* Top Header */}
+        <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-30 flex-shrink-0">
+          <div className="px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="lg:hidden"
+                  onClick={() => setSidebarOpen(true)}
+                >
+                  <Menu className="w-5 h-5" />
+                </Button>
+                <div>
+                  <h1 className="text-xl font-semibold text-gray-900">
+                    {navigationItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
+                  </h1>
+                  <p className="text-sm text-gray-500">
+                    {activeTab === 'overview' && 'Dashboard overview and analytics'}
+                    {activeTab === 'registrations' && 'Manage event registrations'}
+                    {activeTab === 'questions' && 'Handle participant questions'}
+                    {activeTab === 'partnerships' && 'Partnership inquiries and management'}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-2 lg:hidden">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRefresh}
+                  disabled={refreshing}
+                >
+                  <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
 
-          <TabsContent value="overview" className="space-y-6">
-            {stats ? (
-              <DashboardOverview stats={stats} />
-            ) : (
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <p className="text-gray-500">Unable to load dashboard statistics</p>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
+        {/* Page Content */}
+        <main className="flex-1 p-4">
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              {stats ? (
+                <DashboardOverview stats={stats} />
+              ) : (
+                <Card>
+                  <CardContent className="p-8 text-center">
+                    <p className="text-gray-500">Unable to load dashboard statistics</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
 
-          <TabsContent value="registrations" className="space-y-6">
+          {activeTab === 'registrations' && (
             <RegistrationsTable 
               registrations={registrations} 
               onUpdate={fetchData}
             />
-          </TabsContent>
+          )}
 
-          <TabsContent value="questions" className="space-y-6">
+          {activeTab === 'questions' && (
             <QuestionsTable 
               questions={questions} 
               onUpdate={fetchData}
             />
-          </TabsContent>
+          )}
 
-          <TabsContent value="partnerships" className="space-y-6">
+          {activeTab === 'partnerships' && (
             <PartnershipsTable 
               partnerships={partnerships} 
               onUpdate={fetchData}
             />
-          </TabsContent>
-        </Tabs>
+          )}
+        </main>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <Logo variant="footer" />
-            <Badge className="bg-red-600 text-white">Admin Panel</Badge>
-          </div>
-          <p className="text-gray-400">
-            &copy; 2025 YPE Summit Admin Dashboard. All rights reserved.
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            Manage registrations, questions, and partnerships for the YPE Summit 2025
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
