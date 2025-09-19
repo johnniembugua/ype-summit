@@ -15,9 +15,11 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
 import { Navigation } from '@/components/Navigation';
+import { exhibitorSchema, formatValidationErrors } from '@/lib/validations';
 
 export default function Exhibitors() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     // Personal Information
     fullName: '',
@@ -38,7 +40,7 @@ export default function Exhibitors() {
     targetMarket: '',
     
     // Collaboration & Support
-    wantToTeamUp: '',
+    wantToTeamUp: 'no' as 'yes' | 'no',
     lookingFor: '',
     
     // SDG Alignment
@@ -76,20 +78,59 @@ export default function Exhibitors() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setValidationErrors({});
+    
+    // Basic validation check
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.ideaTitle || !formData.category || !formData.fieldOfFocus || !formData.uniqueness || !formData.summary || !formData.businessModel || !formData.targetMarket) {
+      toast.error('Please fill in all required fields.');
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success('Your idea has been submitted successfully!');
-      // Reset form
-      setFormData({
-        fullName: '', email: '', phone: '', companyName: '', yearsOfOperation: '', website: '',
-        ideaTitle: '', category: '', fieldOfFocus: '', areasOfInterest: '', uniqueness: '',
-        summary: '', businessModel: '', targetMarket: '', wantToTeamUp: '', lookingFor: '',
-        sdgAlignment: [], otherSdg: ''
+      // Ensure sdgAlignment is not empty - if no SDGs selected, add a default
+      const formDataToValidate = {
+        ...formData,
+        sdgAlignment: formData.sdgAlignment.length > 0 ? formData.sdgAlignment : ['Not specified']
+      };
+
+      // Validate form data
+      const validation = exhibitorSchema.safeParse(formDataToValidate);
+      if (!validation.success) {
+        const errors = formatValidationErrors(validation.error);
+        console.log('Validation errors:', errors);
+        console.log('Form data:', formDataToValidate);
+        setValidationErrors(errors);
+        toast.error('Please fix the validation errors and try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const response = await fetch('/api/exhibitors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(validation.data),
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success(result.message || 'Your idea has been submitted successfully!');
+        // Reset form
+        setFormData({
+          fullName: '', email: '', phone: '', companyName: '', yearsOfOperation: '', website: '',
+          ideaTitle: '', category: '', fieldOfFocus: '', areasOfInterest: '', uniqueness: '',
+          summary: '', businessModel: '', targetMarket: '', wantToTeamUp: 'no' as 'yes' | 'no', lookingFor: '',
+          sdgAlignment: [], otherSdg: ''
+        });
+      } else {
+        toast.error(result.error || 'Failed to submit your idea. Please try again.');
+      }
     } catch (error) {
-      toast.error('Failed to submit your idea. Please try again.');
+      console.error('Exhibitor submission error:', error);
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -141,35 +182,44 @@ export default function Exhibitors() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="fullName" className="text-sm font-medium text-gray-700">Full Name</Label>
+                      <Label htmlFor="fullName" className="text-sm font-medium text-gray-700">Full Name *</Label>
                       <Input
                         id="fullName"
                         value={formData.fullName}
                         onChange={(e) => handleInputChange('fullName', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.fullName ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.fullName && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.fullName}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
+                      <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address *</Label>
                       <Input
                         id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.email ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.email && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.email}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number *</Label>
                       <Input
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.phone ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.phone && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.phone}</p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="companyName" className="text-sm font-medium text-gray-700">Company Name (if applicable)</Label>
@@ -210,19 +260,22 @@ export default function Exhibitors() {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="ideaTitle" className="text-sm font-medium text-gray-700">Title of Your Idea/Project</Label>
+                      <Label htmlFor="ideaTitle" className="text-sm font-medium text-gray-700">Title of Your Idea/Project *</Label>
                       <Input
                         id="ideaTitle"
                         value={formData.ideaTitle}
                         onChange={(e) => handleInputChange('ideaTitle', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.ideaTitle ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.ideaTitle && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.ideaTitle}</p>
+                      )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Category</Label>
+                      <Label className="text-sm font-medium text-gray-700">Category *</Label>
                       <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
-                        <SelectTrigger className="mt-1">
+                        <SelectTrigger className={`mt-1 ${validationErrors.category ? 'border-red-500' : ''}`}>
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
                         <SelectContent>
@@ -232,6 +285,9 @@ export default function Exhibitors() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
+                      {validationErrors.category && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.category}</p>
+                      )}
                       {formData.category === 'other' && (
                         <Input
                           placeholder="Please specify"
@@ -241,15 +297,18 @@ export default function Exhibitors() {
                       )}
                     </div>
                     <div>
-                      <Label htmlFor="fieldOfFocus" className="text-sm font-medium text-gray-700">Field of Focus</Label>
+                      <Label htmlFor="fieldOfFocus" className="text-sm font-medium text-gray-700">Field of Focus *</Label>
                       <Input
                         id="fieldOfFocus"
                         placeholder="e.g., Renewable Energy, Fintech, Climate Resilience, Youth Empowerment, Logistics, etc."
                         value={formData.fieldOfFocus}
                         onChange={(e) => handleInputChange('fieldOfFocus', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.fieldOfFocus ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.fieldOfFocus && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.fieldOfFocus}</p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="areasOfInterest" className="text-sm font-medium text-gray-700">Areas of Interest / Passion</Label>
@@ -261,46 +320,72 @@ export default function Exhibitors() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="uniqueness" className="text-sm font-medium text-gray-700">What Makes Your Idea Unique?</Label>
+                      <Label htmlFor="uniqueness" className="text-sm font-medium text-gray-700">What Makes Your Idea Unique? *</Label>
                       <Textarea
                         id="uniqueness"
-                        placeholder="Highlight the innovation, impact, or spiritual inspiration behind it"
+                        placeholder="Highlight the innovation, impact, or spiritual inspiration behind it (minimum 20 characters)"
                         value={formData.uniqueness}
                         onChange={(e) => handleInputChange('uniqueness', e.target.value)}
                         required
-                        className="mt-1 min-h-[100px]"
+                        className={`mt-1 min-h-[100px] ${validationErrors.uniqueness ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.uniqueness.length}/20 characters minimum
+                      </p>
+                      {validationErrors.uniqueness && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.uniqueness}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="summary" className="text-sm font-medium text-gray-700">Brief Summary of Proposed Solution</Label>
+                      <Label htmlFor="summary" className="text-sm font-medium text-gray-700">Brief Summary of Proposed Solution *</Label>
                       <Textarea
                         id="summary"
+                        placeholder="Provide a detailed summary of your proposed solution (minimum 20 characters)"
                         value={formData.summary}
                         onChange={(e) => handleInputChange('summary', e.target.value)}
                         required
-                        className="mt-1 min-h-[100px]"
+                        className={`mt-1 min-h-[100px] ${validationErrors.summary ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.summary.length}/20 characters minimum
+                      </p>
+                      {validationErrors.summary && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.summary}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="businessModel" className="text-sm font-medium text-gray-700">Business Model or Funding Needs (Max 20 words)</Label>
+                      <Label htmlFor="businessModel" className="text-sm font-medium text-gray-700">Business Model or Funding Needs (Max 20 words) *</Label>
                       <Textarea
                         id="businessModel"
+                        placeholder="Describe your business model or funding needs (minimum 10 characters)"
                         value={formData.businessModel}
                         onChange={(e) => handleInputChange('businessModel', e.target.value)}
                         required
-                        className="mt-1 min-h-[80px]"
+                        className={`mt-1 min-h-[80px] ${validationErrors.businessModel ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.businessModel.length}/10 characters minimum
+                      </p>
+                      {validationErrors.businessModel && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.businessModel}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="targetMarket" className="text-sm font-medium text-gray-700">Target Market / End-User</Label>
+                      <Label htmlFor="targetMarket" className="text-sm font-medium text-gray-700">Target Market / End-User *</Label>
                       <Textarea
                         id="targetMarket"
-                        placeholder="Who will benefit from this solution?"
+                        placeholder="Who will benefit from this solution? (minimum 10 characters)"
                         value={formData.targetMarket}
                         onChange={(e) => handleInputChange('targetMarket', e.target.value)}
                         required
-                        className="mt-1 min-h-[80px]"
+                        className={`mt-1 min-h-[80px] ${validationErrors.targetMarket ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.targetMarket.length}/10 characters minimum
+                      </p>
+                      {validationErrors.targetMarket && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.targetMarket}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -353,7 +438,7 @@ export default function Exhibitors() {
                     <h3 className="text-lg font-semibold text-gray-900"> SDG Alignment</h3>
                   </div>
                   <div className="space-y-4">
-                    <Label className="text-sm font-medium text-gray-700">Which SDG(s) Does Your Idea Support?</Label>
+                    <Label className="text-sm font-medium text-gray-700">Which SDG(s) Does Your Idea Support? (Optional)</Label>
                     <div className="space-y-2">
                       {sdgOptions.map((sdg) => (
                         <div key={sdg} className="flex items-center space-x-2">
@@ -380,6 +465,9 @@ export default function Exhibitors() {
                         />
                       </div>
                     </div>
+                    {validationErrors.sdgAlignment && (
+                      <p className="text-sm text-red-500 mt-1">{validationErrors.sdgAlignment}</p>
+                    )}
                   </div>
                 </div>
 

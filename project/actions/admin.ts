@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/db';
-import { questions, registrations, partnerships, eventAnalytics } from '@/db/schema';
+import { questions, registrations, partnerships, exhibitors, eventAnalytics } from '@/db/schema';
 import { eq, sql, desc, count } from 'drizzle-orm';
 
 // Add upvote field to questions table schema (we'll need to update the schema later)
@@ -63,6 +63,26 @@ export async function getAllPartnershipsForAdmin() {
     return {
       success: false,
       error: 'Failed to retrieve partnerships.',
+    };
+  }
+}
+
+export async function getAllExhibitorsForAdmin() {
+  try {
+    const allExhibitors = await db
+      .select()
+      .from(exhibitors)
+      .orderBy(desc(exhibitors.createdAt));
+
+    return {
+      success: true,
+      data: allExhibitors,
+    };
+  } catch (error) {
+    console.error('Get all exhibitors for admin error:', error);
+    return {
+      success: false,
+      error: 'Failed to retrieve exhibitors.',
     };
   }
 }
@@ -154,6 +174,36 @@ export async function getDashboardStats() {
       .from(eventAnalytics)
       .where(eq(eventAnalytics.eventType, 'partnership_inquiry'));
 
+    const exhibitorEvents = await db
+      .select({ count: count() })
+      .from(eventAnalytics)
+      .where(eq(eventAnalytics.eventType, 'exhibitor_submission'));
+
+    // Get exhibitor stats
+    const totalExhibitors = await db
+      .select({ count: count() })
+      .from(exhibitors);
+
+    const pendingExhibitors = await db
+      .select({ count: count() })
+      .from(exhibitors)
+      .where(eq(exhibitors.status, 'pending'));
+
+    const approvedExhibitors = await db
+      .select({ count: count() })
+      .from(exhibitors)
+      .where(eq(exhibitors.status, 'approved'));
+
+    const reviewedExhibitors = await db
+      .select({ count: count() })
+      .from(exhibitors)
+      .where(eq(exhibitors.status, 'reviewed'));
+
+    const rejectedExhibitors = await db
+      .select({ count: count() })
+      .from(exhibitors)
+      .where(eq(exhibitors.status, 'rejected'));
+
     const stats = {
       registrations: {
         total: totalRegistrations[0]?.count || 0,
@@ -170,11 +220,19 @@ export async function getDashboardStats() {
         confirmed: confirmedPartnerships[0]?.count || 0,
         pending: pendingPartnerships[0]?.count || 0,
       },
+      exhibitors: {
+        total: totalExhibitors[0]?.count || 0,
+        pending: pendingExhibitors[0]?.count || 0,
+        reviewed: reviewedExhibitors[0]?.count || 0,
+        approved: approvedExhibitors[0]?.count || 0,
+        rejected: rejectedExhibitors[0]?.count || 0,
+      },
       analytics: {
         total: totalEvents[0]?.count || 0,
         registrations: registrationEvents[0]?.count || 0,
         questions: questionEvents[0]?.count || 0,
         partnerships: partnershipEvents[0]?.count || 0,
+        exhibitors: exhibitorEvents[0]?.count || 0,
       },
     };
 

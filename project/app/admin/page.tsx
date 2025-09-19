@@ -1,53 +1,59 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Shield, RefreshCw, LogOut, LayoutDashboard, Users, MessageSquare, Handshake, Menu, X } from 'lucide-react';
+import { Loader2, Shield, RefreshCw, LogOut, Linkedin, Twitter } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { DashboardOverview } from '@/components/admin/dashboard-overview';
 import { RegistrationsTable } from '@/components/admin/registrations-table';
 import { QuestionsTable } from '@/components/admin/questions-table';
 import { PartnershipsTable } from '@/components/admin/partnerships-table';
+import { ExhibitorsTable } from '@/components/admin/exhibitors-table';
 import { AdminAuth } from '@/components/admin/admin-auth';
 import { Logo } from '@/components/Logo';
+import Link from 'next/link';
 
 import {
   getDashboardStats,
   getAllRegistrationsForAdmin,
   getAllQuestionsForAdmin,
   getAllPartnershipsForAdmin,
+  getAllExhibitorsForAdmin,
 } from '@/actions/admin';
 
-import { Registration, Question, Partnership } from '@/types';
+import { Registration, Question, Partnership, Exhibitor } from '@/types';
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const [stats, setStats] = useState<any>(null);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [partnerships, setPartnerships] = useState<Partnership[]>([]);
+  const [exhibitors, setExhibitors] = useState<Exhibitor[]>([]);
 
   const fetchData = async () => {
     try {
-      const [statsResult, registrationsResult, questionsResult, partnershipsResult] = await Promise.all([
+      const [statsResult, registrationsResult, questionsResult, partnershipsResult, exhibitorsResult] = await Promise.all([
         getDashboardStats(),
         getAllRegistrationsForAdmin(),
         getAllQuestionsForAdmin(),
         getAllPartnershipsForAdmin(),
+        getAllExhibitorsForAdmin(),
       ]);
 
       if (statsResult.success) setStats(statsResult.data);
-      if (registrationsResult.success) setRegistrations(registrationsResult.data);
-      if (questionsResult.success) setQuestions(questionsResult.data);
-      if (partnershipsResult.success) setPartnerships(partnershipsResult.data);
+      if (registrationsResult.success) setRegistrations(registrationsResult.data || []);
+      if (questionsResult.success) setQuestions(questionsResult.data || []);
+      if (partnershipsResult.success) setPartnerships(partnershipsResult.data || []);
+      if (exhibitorsResult.success) setExhibitors(exhibitorsResult.data || []);
 
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -103,202 +109,195 @@ export default function AdminDashboard() {
     );
   }
 
-  const navigationItems = [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard, count: stats ? stats.registrations.total + stats.questions.total + stats.partnerships.total : 0 },
-    { id: 'registrations', label: 'Registrations', icon: Users, count: registrations.length },
-    { id: 'questions', label: 'Questions', icon: MessageSquare, count: questions.length },
-    { id: 'partnerships', label: 'Partnerships', icon: Handshake, count: partnerships.length },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex">
-      {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white/95 backdrop-blur-sm rounded-r-2xl shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 lg:rounded-r-none lg:shadow-lg ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="flex flex-col h-full">
-          {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <div className="flex items-center space-x-3">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Header */}
+      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
               <Logo variant="header" />
               <Badge className="bg-red-100 text-red-800 border-red-200">
                 <Shield className="w-3 h-3 mr-1" />
-                Admin
+                Admin Dashboard
               </Badge>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="lg:hidden"
-              onClick={() => setSidebarOpen(false)}
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
-              
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setActiveTab(item.id);
-                    setSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <Icon className={`w-5 h-5 ${isActive ? 'text-blue-700' : 'text-gray-400'}`} />
-                    <span>{item.label}</span>
-                  </div>
-                  {item.count > 0 && (
-                    <Badge 
-                      variant={isActive ? "default" : "secondary"}
-                      className={`text-xs ${isActive ? 'bg-blue-700' : ''}`}
-                    >
-                      {item.count}
-                    </Badge>
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t border-gray-200">
-            <div className="space-y-2">
+            <div className="flex items-center space-x-4">
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start"
                 onClick={handleRefresh}
                 disabled={refreshing}
               >
                 <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-                Refresh Data
+                Refresh
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start"
-                onClick={() => window.location.href = '/'}
-              >
+              <Button variant="outline" size="sm" onClick={() => window.location.href = '/'}>
                 View Site
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
-                onClick={handleLogout}
-              >
+              <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </Button>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      {/* <div className="min-h-screen flex flex-col"> */}
-      <div className="min-h-screen flex flex-col w-full max-w-screen-md md:max-w-screen-lg mx-auto px-4 sm:px-6 lg:max-w-none lg:mx-0">
-        {/* Top Header */}
-        <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-30 flex-shrink-0">
-          <div className="px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="lg:hidden"
-                  onClick={() => setSidebarOpen(true)}
-                >
-                  <Menu className="w-5 h-5" />
-                </Button>
-                <div>
-                  <h1 className="text-xl font-semibold text-gray-900">
-                    {navigationItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
-                  </h1>
-                  <p className="text-sm text-gray-500">
-                    {activeTab === 'overview' && 'Dashboard overview and analytics'}
-                    {activeTab === 'registrations' && 'Manage event registrations'}
-                    {activeTab === 'questions' && 'Handle participant questions'}
-                    {activeTab === 'partnerships' && 'Partnership inquiries and management'}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-2 lg:hidden">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleRefresh}
-                  disabled={refreshing}
-                >
-                  <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleLogout}>
-                  <LogOut className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Page Content */}
-        <main className="flex-1 p-4">
-          {activeTab === 'overview' && (
-            <div className="space-y-6">
-              {stats ? (
-                <DashboardOverview stats={stats} />
-              ) : (
-                <Card>
-                  <CardContent className="p-8 text-center">
-                    <p className="text-gray-500">Unable to load dashboard statistics</p>
-                  </CardContent>
-                </Card>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5 lg:w-[800px] mx-auto">
+            <TabsTrigger value="overview" className="flex items-center space-x-2">
+              <span>Overview</span>
+              {stats && (
+                <Badge variant="secondary" className="ml-1">
+                  {stats.registrations.total + stats.questions.total + stats.partnerships.total + stats.exhibitors.total}
+                </Badge>
               )}
-            </div>
-          )}
+            </TabsTrigger>
+            <TabsTrigger value="registrations" className="flex items-center space-x-2">
+              <span>Registrations</span>
+              {registrations.length > 0 && (
+                <Badge variant="secondary" className="ml-1">
+                  {registrations.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="questions" className="flex items-center space-x-2">
+              <span>Questions</span>
+              {questions.length > 0 && (
+                <Badge variant="secondary" className="ml-1">
+                  {questions.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="partnerships" className="flex items-center space-x-2">
+              <span>Partnerships</span>
+              {partnerships.length > 0 && (
+                <Badge variant="secondary" className="ml-1">
+                  {partnerships.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="exhibitors" className="flex items-center space-x-2">
+              <span>Exhibitors</span>
+              {exhibitors.length > 0 && (
+                <Badge variant="secondary" className="ml-1">
+                  {exhibitors.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+          </TabsList>
 
-          {activeTab === 'registrations' && (
+          <TabsContent value="overview" className="space-y-6">
+            {stats ? (
+              <DashboardOverview stats={stats} />
+            ) : (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">Unable to load dashboard statistics</p>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="registrations" className="space-y-6">
             <RegistrationsTable 
               registrations={registrations} 
               onUpdate={fetchData}
             />
-          )}
+          </TabsContent>
 
-          {activeTab === 'questions' && (
+          <TabsContent value="questions" className="space-y-6">
             <QuestionsTable 
               questions={questions} 
               onUpdate={fetchData}
             />
-          )}
+          </TabsContent>
 
-          {activeTab === 'partnerships' && (
+          <TabsContent value="partnerships" className="space-y-6">
             <PartnershipsTable 
               partnerships={partnerships} 
               onUpdate={fetchData}
             />
-          )}
-        </main>
+          </TabsContent>
+
+          <TabsContent value="exhibitors" className="space-y-6">
+            <ExhibitorsTable 
+              exhibitors={exhibitors} 
+              onUpdate={fetchData}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
+
+     {/* Footer */}
+     <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="mb-4">
+                <Logo variant="footer" />
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <div className="space-y-2">
+                <Link href="/" className="block text-gray-400 hover:text-white transition-colors">Home</Link>
+                <Link href="/speakers" className="block text-gray-400 hover:text-white transition-colors">Speakers</Link>
+                <Link href="/program" className="block text-gray-400 hover:text-white transition-colors">Program</Link>
+                <Link href="/register" className="block text-gray-400 hover:text-white transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-white transition-colors">About</Link>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+              <div className="space-y-3 text-gray-400">
+                <p>info@ypesummit.co.ke</p>
+                <p>+254 700 000 000</p>
+                <p>Nairobi, Kenya</p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
+              <div className="space-y-2 text-gray-400">
+                <p>Follow us on social media for updates</p>
+                <div className="flex space-x-4 mt-4">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">f</span>
+                  </div>
+                  <div className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">ig</span>
+                  </div>
+                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">wa</span>
+                  </div>
+                  <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold">yt</span>
+                  </div>
+                  <a href="https://twitter.com/ypesummit" target="_blank" rel="noopener noreferrer">
+                    <Twitter className="w-10 h-10 text-gray-400" />
+                  </a>
+                  <a href="https://linkedin.com/in/ypesummit" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="w-10 h-10 text-gray-400" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
