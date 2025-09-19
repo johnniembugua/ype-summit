@@ -1,0 +1,9 @@
+# This directory stores uploaded documents for the YPE Summit
+# Documents are organized by category:
+# - panelist-materials/
+# - summit-docs/
+# - resources/
+# - presentations/
+
+# Security Note: All uploaded files are validated for type and size
+# Only safe document types are allowed to prevent hacking attempts

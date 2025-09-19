@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Award, ArrowLeft, Lightbulb, Users, Target, Globe } from 'lucide-react';
+import { Award, ArrowLeft, Lightbulb, Users, Target, Globe, Youtube, Twitter, Facebook } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,9 +15,11 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
 import { Navigation } from '@/components/Navigation';
+import { exhibitorSchema, formatValidationErrors } from '@/lib/validations';
 
 export default function Exhibitors() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     // Personal Information
     fullName: '',
@@ -38,7 +40,7 @@ export default function Exhibitors() {
     targetMarket: '',
     
     // Collaboration & Support
-    wantToTeamUp: '',
+    wantToTeamUp: 'no' as 'yes' | 'no',
     lookingFor: '',
     
     // SDG Alignment
@@ -76,20 +78,59 @@ export default function Exhibitors() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setValidationErrors({});
+    
+    // Basic validation check
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.ideaTitle || !formData.category || !formData.fieldOfFocus || !formData.uniqueness || !formData.summary || !formData.businessModel || !formData.targetMarket) {
+      toast.error('Please fill in all required fields.');
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success('Your idea has been submitted successfully!');
-      // Reset form
-      setFormData({
-        fullName: '', email: '', phone: '', companyName: '', yearsOfOperation: '', website: '',
-        ideaTitle: '', category: '', fieldOfFocus: '', areasOfInterest: '', uniqueness: '',
-        summary: '', businessModel: '', targetMarket: '', wantToTeamUp: '', lookingFor: '',
-        sdgAlignment: [], otherSdg: ''
+      // Ensure sdgAlignment is not empty - if no SDGs selected, add a default
+      const formDataToValidate = {
+        ...formData,
+        sdgAlignment: formData.sdgAlignment.length > 0 ? formData.sdgAlignment : ['Not specified']
+      };
+
+      // Validate form data
+      const validation = exhibitorSchema.safeParse(formDataToValidate);
+      if (!validation.success) {
+        const errors = formatValidationErrors(validation.error);
+        console.log('Validation errors:', errors);
+        console.log('Form data:', formDataToValidate);
+        setValidationErrors(errors);
+        toast.error('Please fix the validation errors and try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const response = await fetch('/api/exhibitors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(validation.data),
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success(result.message || 'Your idea has been submitted successfully!');
+        // Reset form
+        setFormData({
+          fullName: '', email: '', phone: '', companyName: '', yearsOfOperation: '', website: '',
+          ideaTitle: '', category: '', fieldOfFocus: '', areasOfInterest: '', uniqueness: '',
+          summary: '', businessModel: '', targetMarket: '', wantToTeamUp: 'no' as 'yes' | 'no', lookingFor: '',
+          sdgAlignment: [], otherSdg: ''
+        });
+      } else {
+        toast.error(result.error || 'Failed to submit your idea. Please try again.');
+      }
     } catch (error) {
-      toast.error('Failed to submit your idea. Please try again.');
+      console.error('Exhibitor submission error:', error);
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -101,13 +142,12 @@ export default function Exhibitors() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
+      <section className="relative text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-16 text-center">
           <div className="space-y-6">
             <Badge className="bg-yellow-400 text-blue-900 text-sm font-semibold px-4 py-2">
               <Lightbulb className="w-4 h-4 mr-2" />
-              Idea Submission Portal
             </Badge>
             <h1 className="text-3xl md:text-5xl font-bold leading-tight">
               YPE Summit 2025 Idea Submission Form
@@ -124,8 +164,8 @@ export default function Exhibitors() {
         <div className="max-w-4xl mx-auto">
           <Card className="shadow-lg">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
-              <CardTitle className="text-2xl font-bold text-blue-900 flex items-center">
-                <Target className="w-6 h-6 mr-3 text-blue-600" />
+              <CardTitle className="text-2xl font-bold flex items-center" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                
                 Submit Your Innovative Idea
               </CardTitle>
               <CardDescription className="text-gray-700">
@@ -138,39 +178,48 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Users className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 Personal Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900"> Personal Information</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="fullName" className="text-sm font-medium text-gray-700">Full Name</Label>
+                      <Label htmlFor="fullName" className="text-sm font-medium text-gray-700">Full Name *</Label>
                       <Input
                         id="fullName"
                         value={formData.fullName}
                         onChange={(e) => handleInputChange('fullName', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.fullName ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.fullName && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.fullName}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
+                      <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address *</Label>
                       <Input
                         id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.email ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.email && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.email}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number *</Label>
                       <Input
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.phone ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.phone && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.phone}</p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="companyName" className="text-sm font-medium text-gray-700">Company Name (if applicable)</Label>
@@ -207,23 +256,26 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Lightbulb className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 Idea Overview</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Idea Overview</h3>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="ideaTitle" className="text-sm font-medium text-gray-700">Title of Your Idea/Project</Label>
+                      <Label htmlFor="ideaTitle" className="text-sm font-medium text-gray-700">Title of Your Idea/Project *</Label>
                       <Input
                         id="ideaTitle"
                         value={formData.ideaTitle}
                         onChange={(e) => handleInputChange('ideaTitle', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.ideaTitle ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.ideaTitle && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.ideaTitle}</p>
+                      )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Category</Label>
+                      <Label className="text-sm font-medium text-gray-700">Category *</Label>
                       <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
-                        <SelectTrigger className="mt-1">
+                        <SelectTrigger className={`mt-1 ${validationErrors.category ? 'border-red-500' : ''}`}>
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
                         <SelectContent>
@@ -233,6 +285,9 @@ export default function Exhibitors() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
+                      {validationErrors.category && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.category}</p>
+                      )}
                       {formData.category === 'other' && (
                         <Input
                           placeholder="Please specify"
@@ -242,15 +297,18 @@ export default function Exhibitors() {
                       )}
                     </div>
                     <div>
-                      <Label htmlFor="fieldOfFocus" className="text-sm font-medium text-gray-700">Field of Focus</Label>
+                      <Label htmlFor="fieldOfFocus" className="text-sm font-medium text-gray-700">Field of Focus *</Label>
                       <Input
                         id="fieldOfFocus"
                         placeholder="e.g., Renewable Energy, Fintech, Climate Resilience, Youth Empowerment, Logistics, etc."
                         value={formData.fieldOfFocus}
                         onChange={(e) => handleInputChange('fieldOfFocus', e.target.value)}
                         required
-                        className="mt-1"
+                        className={`mt-1 ${validationErrors.fieldOfFocus ? 'border-red-500' : ''}`}
                       />
+                      {validationErrors.fieldOfFocus && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.fieldOfFocus}</p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="areasOfInterest" className="text-sm font-medium text-gray-700">Areas of Interest / Passion</Label>
@@ -262,46 +320,72 @@ export default function Exhibitors() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="uniqueness" className="text-sm font-medium text-gray-700">What Makes Your Idea Unique?</Label>
+                      <Label htmlFor="uniqueness" className="text-sm font-medium text-gray-700">What Makes Your Idea Unique? *</Label>
                       <Textarea
                         id="uniqueness"
-                        placeholder="Highlight the innovation, impact, or spiritual inspiration behind it"
+                        placeholder="Highlight the innovation, impact, or spiritual inspiration behind it (minimum 20 characters)"
                         value={formData.uniqueness}
                         onChange={(e) => handleInputChange('uniqueness', e.target.value)}
                         required
-                        className="mt-1 min-h-[100px]"
+                        className={`mt-1 min-h-[100px] ${validationErrors.uniqueness ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.uniqueness.length}/20 characters minimum
+                      </p>
+                      {validationErrors.uniqueness && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.uniqueness}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="summary" className="text-sm font-medium text-gray-700">Brief Summary of Proposed Solution</Label>
+                      <Label htmlFor="summary" className="text-sm font-medium text-gray-700">Brief Summary of Proposed Solution *</Label>
                       <Textarea
                         id="summary"
+                        placeholder="Provide a detailed summary of your proposed solution (minimum 20 characters)"
                         value={formData.summary}
                         onChange={(e) => handleInputChange('summary', e.target.value)}
                         required
-                        className="mt-1 min-h-[100px]"
+                        className={`mt-1 min-h-[100px] ${validationErrors.summary ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.summary.length}/20 characters minimum
+                      </p>
+                      {validationErrors.summary && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.summary}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="businessModel" className="text-sm font-medium text-gray-700">Business Model or Funding Needs (Max 20 words)</Label>
+                      <Label htmlFor="businessModel" className="text-sm font-medium text-gray-700">Business Model or Funding Needs (Max 20 words) *</Label>
                       <Textarea
                         id="businessModel"
+                        placeholder="Describe your business model or funding needs (minimum 10 characters)"
                         value={formData.businessModel}
                         onChange={(e) => handleInputChange('businessModel', e.target.value)}
                         required
-                        className="mt-1 min-h-[80px]"
+                        className={`mt-1 min-h-[80px] ${validationErrors.businessModel ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.businessModel.length}/10 characters minimum
+                      </p>
+                      {validationErrors.businessModel && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.businessModel}</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="targetMarket" className="text-sm font-medium text-gray-700">Target Market / End-User</Label>
+                      <Label htmlFor="targetMarket" className="text-sm font-medium text-gray-700">Target Market / End-User *</Label>
                       <Textarea
                         id="targetMarket"
-                        placeholder="Who will benefit from this solution?"
+                        placeholder="Who will benefit from this solution? (minimum 10 characters)"
                         value={formData.targetMarket}
                         onChange={(e) => handleInputChange('targetMarket', e.target.value)}
                         required
-                        className="mt-1 min-h-[80px]"
+                        className={`mt-1 min-h-[80px] ${validationErrors.targetMarket ? 'border-red-500' : ''}`}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.targetMarket.length}/10 characters minimum
+                      </p>
+                      {validationErrors.targetMarket && (
+                        <p className="text-sm text-red-500 mt-1">{validationErrors.targetMarket}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -310,7 +394,7 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Globe className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 Collaboration & Support</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Collaboration & Support</h3>
                   </div>
                   <div className="space-y-4">
                     <div>
@@ -351,10 +435,10 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Target className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 SDG Alignment</h3>
+                    <h3 className="text-lg font-semibold text-gray-900"> SDG Alignment</h3>
                   </div>
                   <div className="space-y-4">
-                    <Label className="text-sm font-medium text-gray-700">Which SDG(s) Does Your Idea Support?</Label>
+                    <Label className="text-sm font-medium text-gray-700">Which SDG(s) Does Your Idea Support? (Optional)</Label>
                     <div className="space-y-2">
                       {sdgOptions.map((sdg) => (
                         <div key={sdg} className="flex items-center space-x-2">
@@ -381,6 +465,9 @@ export default function Exhibitors() {
                         />
                       </div>
                     </div>
+                    {validationErrors.sdgAlignment && (
+                      <p className="text-sm text-red-500 mt-1">{validationErrors.sdgAlignment}</p>
+                    )}
                   </div>
                 </div>
 
@@ -401,15 +488,18 @@ export default function Exhibitors() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <Logo variant="footer" />
-              <p className="mt-4 text-gray-400">
-                Empowering young professionals and entrepreneurs to make a kingdom impact in their workplaces and communities.
+              <div className="mb-4">
+                <Logo variant="footer" width={80} height={80} />
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.
               </p>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
@@ -417,39 +507,53 @@ export default function Exhibitors() {
                 <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
                 <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
                 <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
-                <Link href="/exhibitors" className="block text-blue-900 font-semibold">Exhibitors</Link>
-                <Link href="/partnership" className="block text-gray-400 hover:text-blue-900 transition-colors">Partnership</Link>
                 <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>Email: info@ypesummit.org</p>
-                <p>Phone: +254 700 000 000</p>
-                <p>Address: Nairobi, Kenya</p>
+              <div className="space-y-3 text-gray-400">
+                <p>aysmwangaza@gmail.com</p>
+                <p> +254117476172</p>
+                <p>Nairobi, Kenya</p>
               </div>
             </div>
+
             <div>
-              <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">f</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">t</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">in</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">ig</span>
+              <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
+              <div className="space-y-2 text-gray-400">
+                <p>Follow us on social media for updates</p>
+                <div className="flex space-x-4 mt-4">
+                  <a
+                    href="#"
+                    aria-label="Facebook"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Facebook className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="Twitter"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Twitter className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="YouTube"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Youtube className="w-5 h-5 text-white" />
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; 2025 YPE Summit. All rights reserved.</p>
+
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Mwangaza Adventist Youth Society YPE Band</p>
           </div>
         </div>
       </footer>

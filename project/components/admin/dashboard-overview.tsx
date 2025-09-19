@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, MessageSquare, Handshake, TrendingUp, Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Users, MessageSquare, Handshake, TrendingUp, Calendar, Clock, CheckCircle, AlertCircle, Building } from 'lucide-react';
 
 interface DashboardStats {
   registrations: {
@@ -19,11 +19,19 @@ interface DashboardStats {
     confirmed: number;
     pending: number;
   };
+  exhibitors: {
+    total: number;
+    pending: number;
+    reviewed: number;
+    approved: number;
+    rejected: number;
+  };
   analytics: {
     total: number;
     registrations: number;
     questions: number;
     partnerships: number;
+    exhibitors: number;
   };
 }
 
@@ -58,6 +66,14 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       trend: '+25% from last week'
     },
     {
+      title: 'Exhibitor Submissions',
+      value: stats.exhibitors.total,
+      subtitle: `${stats.exhibitors.approved} approved, ${stats.exhibitors.pending} pending`,
+      icon: Building,
+      color: 'indigo',
+      trend: '+18% from last week'
+    },
+    {
       title: 'Total Interactions',
       value: stats.analytics.total,
       subtitle: 'All user interactions tracked',
@@ -89,6 +105,11 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
         icon: 'bg-purple-100 text-purple-600',
         text: 'text-purple-600'
       },
+      indigo: {
+        bg: 'bg-indigo-50',
+        icon: 'bg-indigo-100 text-indigo-600',
+        text: 'text-indigo-600'
+      },
     };
     return colors[color as keyof typeof colors] || colors.blue;
   };
@@ -119,8 +140,16 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       color: 'text-yellow-600'
     },
     {
+      label: 'Exhibitor Approval Rate',
+      value: stats.exhibitors.total > 0 
+        ? `${Math.round((stats.exhibitors.approved / stats.exhibitors.total) * 100)}%`
+        : '0%',
+      icon: Building,
+      color: 'text-indigo-600'
+    },
+    {
       label: 'Active Issues',
-      value: stats.registrations.pending + stats.questions.pending + stats.partnerships.pending,
+      value: stats.registrations.pending + stats.questions.pending + stats.partnerships.pending + stats.exhibitors.pending,
       icon: AlertCircle,
       color: 'text-red-600'
     },
@@ -130,10 +159,7 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-lg p-6 text-white">
-        <h1 className="text-2xl font-bold mb-2">YPE Summit 2025 - Admin Dashboard</h1>
-        <p className="text-blue-100">
-          Welcome to the admin dashboard. Here you can manage registrations, questions, and partnerships for the summit.
-        </p>
+        <h1 className="text-2xl font-bold mb-2">Admin Dashboard</h1>
         <div className="flex items-center space-x-4 mt-4 text-blue-200">
           <div className="flex items-center space-x-2">
             <Calendar className="w-4 h-4" />
@@ -147,7 +173,7 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       </div>
 
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {statCards.map((stat, index) => {
           const colorClasses = getColorClasses(stat.color);
           const Icon = stat.icon;
@@ -175,7 +201,7 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       </div>
 
       {/* Quick Stats Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {quickStats.map((stat, index) => {
           const Icon = stat.icon;
           
@@ -196,7 +222,7 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       </div>
 
       {/* Recent Activity Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">
@@ -254,6 +280,46 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
                 style={{ 
                   width: stats.questions.total > 0 
                     ? `${(stats.questions.answered / stats.questions.total) * 100}%` 
+                    : '0%' 
+                }}
+              ></div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">
+              Exhibitor Status
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Total Submissions</span>
+              <span className="font-semibold">{stats.exhibitors.total}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Approved</span>
+              <span className="font-semibold text-green-600">{stats.exhibitors.approved}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Under Review</span>
+              <span className="font-semibold text-blue-600">{stats.exhibitors.reviewed}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Pending</span>
+              <span className="font-semibold text-yellow-600">{stats.exhibitors.pending}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Rejected</span>
+              <span className="font-semibold text-red-600">{stats.exhibitors.rejected}</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+              <div 
+                className="bg-indigo-600 h-2 rounded-full" 
+                style={{ 
+                  width: stats.exhibitors.total > 0 
+                    ? `${(stats.exhibitors.approved / stats.exhibitors.total) * 100}%` 
                     : '0%' 
                 }}
               ></div>
