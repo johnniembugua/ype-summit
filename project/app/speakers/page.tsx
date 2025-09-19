@@ -1,6 +1,6 @@
 'use client';
 
-import { Award, ArrowLeft, Twitter, Linkedin } from 'lucide-react';
+import { Award, ArrowLeft, Twitter, Linkedin, Users, Facebook, Youtube } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -74,12 +74,12 @@ export default function Speakers() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
+      <section className="relative text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-16 text-center">
           <div className="space-y-6">
             <Badge className="bg-yellow-400 text-blue-900 text-sm font-semibold px-4 py-2">
-              Distinguished Speakers
+              <Users className="w-4 h-4" />
             </Badge>
             <h1 className="text-3xl md:text-5xl font-bold leading-tight">
               Learn from Influential Leaders
@@ -87,12 +87,7 @@ export default function Speakers() {
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
               Meet the distinguished speakers who are making a difference in their fields while staying true to their faith and Kingdom values.
             </p>
-            <Link href="/">
-              <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
-              </Button>
-            </Link>
+           
           </div>
         </div>
       </section>
@@ -101,7 +96,7 @@ export default function Speakers() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-16">
-            <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-8 md:p-12 text-white">
+            <div className="rounded-2xl p-8 md:p-12 text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
               <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-12">
                 <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-yellow-400 flex-shrink-0">
                   <img 
@@ -181,66 +176,36 @@ export default function Speakers() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Don&apos;t Miss These Inspiring Sessions
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Register now to secure your seat and learn from these distinguished speakers who are making a Kingdom impact in their professions.
-          </p>
-          <div className="space-x-4">
-            <Link href="/register">
-              <Button 
-                size="lg" 
-                className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
-              >
-                Register Now
-              </Button>
-            </Link>
-            <Link href="/program">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3 text-lg"
-              >
-                View Full Program
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="mb-4">
-                <Logo variant="footer" />
+                <Logo variant="footer" width={80} height={80} />
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.
+                Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.
               </p>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
-                <Link href="/" className="block text-gray-400 hover:text-white transition-colors">Home</Link>
-                <Link href="/speakers" className="block text-gray-400 hover:text-white transition-colors">Speakers</Link>
-                <Link href="/program" className="block text-gray-400 hover:text-white transition-colors">Program</Link>
-                <Link href="/register" className="block text-gray-400 hover:text-white transition-colors">Register</Link>
-                <Link href="/about" className="block text-gray-400 hover:text-white transition-colors">About</Link>
+                <Link href="/" className="block text-gray-400 hover:text-blue-900 transition-colors">Home</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
+                <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
+                <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
+                <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <div className="space-y-3 text-gray-400">
-                <p>info@ypesummit.co.ke</p>
-                <p>+254 700 000 000</p>
+                <p>aysmwangaza@gmail.com</p>
+                <p> +254117476172</p>
                 <p>Nairobi, Kenya</p>
               </div>
             </div>
@@ -250,23 +215,26 @@ export default function Speakers() {
               <div className="space-y-2 text-gray-400">
                 <p>Follow us on social media for updates</p>
                 <div className="flex space-x-4 mt-4">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">f</span>
-                  </div>
-                  <div className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">ig</span>
-                  </div>
-                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">wa</span>
-                  </div>
-                  <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">yt</span>
-                  </div>
-                  <a href="https://twitter.com/ypesummit" target="_blank" rel="noopener noreferrer">
-                    <Twitter className="w-10 h-10 text-gray-400" />
+                  <a
+                    href="#"
+                    aria-label="Facebook"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Facebook className="w-5 h-5 text-white" />
                   </a>
-                  <a href="https://linkedin.com/in/ypesummit" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-10 h-10 text-gray-400" />
+                  <a
+                    href="#"
+                    aria-label="Twitter"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Twitter className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="YouTube"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Youtube className="w-5 h-5 text-white" />
                   </a>
                 </div>
               </div>
@@ -274,7 +242,7 @@ export default function Speakers() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Mwangaza Adventist Youth Society YPE Band</p>
           </div>
         </div>
       </footer>

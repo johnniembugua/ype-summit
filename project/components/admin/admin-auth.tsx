@@ -49,10 +49,7 @@ export function AdminAuth({ onAuthenticated }: AdminAuthProps) {
           <div className="flex justify-center mb-4">
             <Logo variant="header" />
           </div>
-          <div className="flex items-center justify-center space-x-2 mb-2">
-            <Shield className="h-6 w-6 text-red-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Admin Access</h1>
-          </div>
+          
           <p className="text-gray-600">
             Enter the admin password to access the dashboard
           </p>

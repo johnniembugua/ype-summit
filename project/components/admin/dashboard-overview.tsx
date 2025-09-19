@@ -159,10 +159,7 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-lg p-6 text-white">
-        <h1 className="text-2xl font-bold mb-2">YPE Summit 2025 - Admin Dashboard</h1>
-        <p className="text-blue-100">
-          Welcome to the admin dashboard. Here you can manage registrations, questions, and partnerships for the summit.
-        </p>
+        <h1 className="text-2xl font-bold mb-2">Admin Dashboard</h1>
         <div className="flex items-center space-x-4 mt-4 text-blue-200">
           <div className="flex items-center space-x-2">
             <Calendar className="w-4 h-4" />

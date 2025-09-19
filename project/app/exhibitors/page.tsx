@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Award, ArrowLeft, Lightbulb, Users, Target, Globe } from 'lucide-react';
+import { Award, ArrowLeft, Lightbulb, Users, Target, Globe, Youtube, Twitter, Facebook } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -142,13 +142,12 @@ export default function Exhibitors() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white">
+      <section className="relative text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-16 text-center">
           <div className="space-y-6">
             <Badge className="bg-yellow-400 text-blue-900 text-sm font-semibold px-4 py-2">
               <Lightbulb className="w-4 h-4 mr-2" />
-              Idea Submission Portal
             </Badge>
             <h1 className="text-3xl md:text-5xl font-bold leading-tight">
               YPE Summit 2025 Idea Submission Form
@@ -165,8 +164,8 @@ export default function Exhibitors() {
         <div className="max-w-4xl mx-auto">
           <Card className="shadow-lg">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
-              <CardTitle className="text-2xl font-bold text-blue-900 flex items-center">
-                <Target className="w-6 h-6 mr-3 text-blue-600" />
+              <CardTitle className="text-2xl font-bold flex items-center" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                
                 Submit Your Innovative Idea
               </CardTitle>
               <CardDescription className="text-gray-700">
@@ -179,7 +178,7 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Users className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 Personal Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900"> Personal Information</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -257,7 +256,7 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Lightbulb className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 Idea Overview</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Idea Overview</h3>
                   </div>
                   <div className="space-y-4">
                     <div>
@@ -395,7 +394,7 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Globe className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 Collaboration & Support</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Collaboration & Support</h3>
                   </div>
                   <div className="space-y-4">
                     <div>
@@ -436,7 +435,7 @@ export default function Exhibitors() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Target className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">🔹 SDG Alignment</h3>
+                    <h3 className="text-lg font-semibold text-gray-900"> SDG Alignment</h3>
                   </div>
                   <div className="space-y-4">
                     <Label className="text-sm font-medium text-gray-700">Which SDG(s) Does Your Idea Support? (Optional)</Label>
@@ -489,15 +488,18 @@ export default function Exhibitors() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <Logo variant="footer" />
-              <p className="mt-4 text-gray-400">
-                Empowering young professionals and entrepreneurs to make a kingdom impact in their workplaces and communities.
+              <div className="mb-4">
+                <Logo variant="footer" width={80} height={80} />
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.
               </p>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
@@ -505,39 +507,53 @@ export default function Exhibitors() {
                 <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
                 <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
                 <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
-                <Link href="/exhibitors" className="block text-blue-900 font-semibold">Exhibitors</Link>
-                <Link href="/partnership" className="block text-gray-400 hover:text-blue-900 transition-colors">Partnership</Link>
                 <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>Email: info@ypesummit.org</p>
-                <p>Phone: +254 700 000 000</p>
-                <p>Address: Nairobi, Kenya</p>
+              <div className="space-y-3 text-gray-400">
+                <p>aysmwangaza@gmail.com</p>
+                <p> +254117476172</p>
+                <p>Nairobi, Kenya</p>
               </div>
             </div>
+
             <div>
-              <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">f</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">t</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">in</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors">
-                  <span className="text-sm">ig</span>
+              <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
+              <div className="space-y-2 text-gray-400">
+                <p>Follow us on social media for updates</p>
+                <div className="flex space-x-4 mt-4">
+                  <a
+                    href="#"
+                    aria-label="Facebook"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Facebook className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="Twitter"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Twitter className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="YouTube"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Youtube className="w-5 h-5 text-white" />
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; 2025 YPE Summit. All rights reserved.</p>
+
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Mwangaza Adventist Youth Society YPE Band</p>
           </div>
         </div>
       </footer>
