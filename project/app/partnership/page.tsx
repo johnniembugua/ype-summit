@@ -161,9 +161,9 @@ export default function Partnership() {
               </div>
               <div className="flex-shrink-0">
                 <div className="relative">
-                  <div className="w-96 h-96 rounded-full overflow-hidden shadow-2xl border-4 transform rotate-3 hover:rotate-0 transition-transform duration-300" style={{ borderColor: '#0b3050' }}>
+                  <div className="w-96 h-96 rounded-full overflow-hidden shadow-2xl border-2 transform rotate-3 hover:rotate-0 transition-transform duration-300" style={{ borderColor: '#0b3050' }}>
                     <img 
-                      src="/images/partnership.jpeg" 
+                      src="/images/partnership.jpg" 
                       alt="Partnership collaboration"
                       className="w-full h-full object-cover"
                     />

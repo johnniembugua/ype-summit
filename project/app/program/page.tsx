@@ -197,46 +197,6 @@ export default function Program() {
         </div>
       </section>
 
-      {/* Event Details */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center border-0 bg-gradient-to-br from-blue-50 to-white">
-              <CardContent className="p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-8 h-8 text-blue-400" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Duration</h3>
-                <p className="text-gray-600">8:00 AM - 4:00 PM</p>
-                <p className="text-sm text-gray-500">Full day experience</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 bg-gradient-to-br from-blue-50 to-white">
-              <CardContent className="p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-8 h-8 text-blue-900" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Location</h3>
-                <p className="text-gray-600">Nairobi, Kenya</p>
-                <p className="text-sm text-gray-500">Venue details in confirmation</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 bg-gradient-to-br from-blue-50 to-white">
-              <CardContent className="p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-blue-400" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Capacity</h3>
-                <p className="text-gray-600">Limited Seats</p>
-                <p className="text-sm text-gray-500">Register early to secure your spot</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* Program Timeline */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-slate-50">
         <div className="max-w-7xl mx-auto px-4">

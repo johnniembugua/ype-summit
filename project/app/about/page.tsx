@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Award, Users, Mountain, ArrowLeft, Facebook, Twitter, Youtube, Binoculars } from 'lucide-react';
+import { Award, Users, Mountain, ArrowLeft, Facebook, Twitter, Youtube, Binoculars, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +22,9 @@ export default function About() {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-16 text-center">
           <div className="space-y-6">
+            <Badge className="bg-yellow-400 text-white text-sm font-semibold px-4 py-2">
+              <Info className="w-4 h-4 text-blue-900" />
+            </Badge>
             <h1 className="text-3xl md:text-5xl font-bold leading-tight">
               Empowering Spiritually Grounded Professionals
             </h1>
