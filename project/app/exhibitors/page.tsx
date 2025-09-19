@@ -244,6 +244,7 @@ export default function Exhibitors() {
                       <Input
                         id="website"
                         type="url"
+                        required={false}
                         value={formData.website}
                         onChange={(e) => handleInputChange('website', e.target.value)}
                         className="mt-1"
