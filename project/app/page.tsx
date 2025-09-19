@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Calendar, Clock, MapPin, Users, ArrowRight, Award, Play, ChevronLeft, ChevronRight, Quote, Facebook, Twitter, Youtube, FileText, Church } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ArrowRight, Award, Play, ChevronLeft, ChevronRight, Quote, Facebook, Twitter, Youtube, FileText, Church, User } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 import { Logo } from '@/components/Logo';
 
@@ -21,6 +21,9 @@ export default function Home() {
 
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [showCarousel, setShowCarousel] = useState(false);
+
+  // State to track if it's past September 28th, 2025 at 12:00 EAT
+  const [showFeedbackSection, setShowFeedbackSection] = useState(false);
 
   // Countdown timer
   useEffect(() => {
@@ -47,6 +50,16 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // Check if it's past September 28th, 2025 at 12:00 EAT
+  useEffect(() => {
+    const feedbackDate = new Date('2025-09-28T12:00:00+03:00'); // EAT timezone
+    const now = new Date();
+    
+    if (now >= feedbackDate) {
+      setShowFeedbackSection(true);
+    }
+  }, []);
+
   const isLive = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   const testimonials = [
@@ -59,7 +72,7 @@ export default function Home() {
     {
       name: 'Natalie',
       title: 'Entrepreneur',
-      testimonial: 'I was blown away by the quality of the speakers and the richness of the content. The 2024 YPE Summit was a catalyst for my business and spiritual growth.',
+      testimonial: 'I was impressed by the quality of the speakers and the richness of the content. The 2024 YPE Summit was a catalyst for my business and spiritual growth.',
       image: '/images/2.jpeg'
     },
     {
@@ -205,7 +218,7 @@ export default function Home() {
                     size="lg" 
                     className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-blue-900 font-bold px-8 py-4 text-lg border-0 shadow-2xl hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105"
                   >
-                    Register to Attend
+                    Register To Attend
                   </Button>
                 </Link>
               </div>
@@ -309,7 +322,7 @@ export default function Home() {
                 />
               </div>
               <div className="text-center md:text-left">
-                <Badge className="bg-yellow-400 text-blue-900 mb-4">Featured Speaker</Badge>
+                <Badge className="bg-yellow-400 text-blue-900 mb-4">Guest Speaker</Badge>
                 <h3 className="text-3xl font-bold mb-2">CJ Maraga</h3>
                 <p className="text-xl text-white-900 mb-4">14th Chief Justice and President of the Supreme Court of Kenya</p>
                 <p className="text-lg text-yellow-100 leading-relaxed mb-6">
@@ -493,11 +506,9 @@ export default function Home() {
                           </p>
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
-                              <img 
-                                src={testimonial.image}
-                                alt={testimonial.name}
-                                className="w-12 h-12 rounded-full"
-                              />
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                                <User className="w-6 h-6 text-white" />
+                              </div>
                               <div>
                                 <h4 className="text-lg font-bold text-gray-900">{testimonial.name}</h4>
                                 <p className="text-sm text-gray-600">{testimonial.title}</p>
@@ -530,33 +541,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Call to Action */}
+      {/* Call to Action / Feedback Section */}
       <section className="py-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Make an Impact?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Join us at the YPE Summit 2025 and be part of a community that&apos;s committed to excellence, integrity, and spiritually grounded impact in the marketplace.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link href="/register" aria-label="Register for Summit">
-              <Button 
-                size="lg" 
-                className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
-              >
-                Register for Summit
-              </Button>
-            </Link>
-            <Link href="/partnership" aria-label="Partner With Us">
-              <Button 
-                size="lg" 
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-8 py-3 text-lg"
-              >
-                Partner With Us
-              </Button>
-            </Link>
-          </div>
+          {showFeedbackSection ? (
+            <>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Share Your Feedback
+              </h2>
+              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                We value your input! Help us improve the YPE Summit experience by sharing your thoughts and suggestions.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link href="/feedback" aria-label="Submit Feedback">
+                  <Button 
+                    size="lg" 
+                    className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
+                  >
+                    Submit Feedback
+                  </Button>
+                </Link>
+                <Link href="/contact" aria-label="Contact Us">
+                  <Button 
+                    size="lg" 
+                    className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-8 py-3 text-lg"
+                  >
+                    Contact Us
+                  </Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Ready to Make an Impact?
+              </h2>
+              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                Join us at the YPE Summit 2025 and be part of a community that&apos;s committed to excellence, integrity, and spiritually grounded impact in the marketplace.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link href="/register" aria-label="Register for Summit">
+                  <Button 
+                    size="lg" 
+                    className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold px-8 py-3 text-lg"
+                  >
+                    Register for Summit
+                  </Button>
+                </Link>
+                <Link href="/partnership" aria-label="Partner With Us">
+                  <Button 
+                    size="lg" 
+                    className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-8 py-3 text-lg"
+                  >
+                    Partner With Us
+                  </Button>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -626,8 +668,7 @@ export default function Home() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
-          
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Mwangaza Adventist Youth Society YPE Band</p>
           </div>
         </div>
       </footer>
