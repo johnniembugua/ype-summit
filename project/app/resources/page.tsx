@@ -465,7 +465,7 @@ export default function ResourcesPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="mb-4">
-                <Logo variant="footer" width={80} height={80} />
+                <Logo variant="footer" />
               </div>
               <p className="text-gray-400 leading-relaxed">
                 Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.

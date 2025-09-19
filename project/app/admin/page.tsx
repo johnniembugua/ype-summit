@@ -5,7 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Shield, RefreshCw, LogOut, Linkedin, Twitter } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Calendar, Clock, MapPin, Users, ArrowRight, Award, Play, ChevronLeft, ChevronRight, Quote, Facebook, Twitter, Youtube, FileText, Church, User, Loader2, Shield, RefreshCw, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { DashboardOverview } from '@/components/admin/dashboard-overview';
@@ -50,10 +51,10 @@ export default function AdminDashboard() {
       ]);
 
       if (statsResult.success) setStats(statsResult.data);
-      if (registrationsResult.success) setRegistrations(registrationsResult.data || []);
-      if (questionsResult.success) setQuestions(questionsResult.data || []);
-      if (partnershipsResult.success) setPartnerships(partnershipsResult.data || []);
-      if (exhibitorsResult.success) setExhibitors(exhibitorsResult.data || []);
+      if (registrationsResult.success) setRegistrations(registrationsResult.data as Registration[] || []);
+      if (questionsResult.success) setQuestions(questionsResult.data as Question[] || []);
+      if (partnershipsResult.success) setPartnerships(partnershipsResult.data as Partnership[] || []);
+      if (exhibitorsResult.success) setExhibitors(exhibitorsResult.data as Exhibitor[] || []);
 
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -232,8 +233,7 @@ export default function AdminDashboard() {
         </Tabs>
       </div>
 
-     {/* Footer */}
-     <footer className="bg-gray-900 text-white py-16">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -241,26 +241,27 @@ export default function AdminDashboard() {
                 <Logo variant="footer" />
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Empowering Kingdom-minded professionals to make a lasting impact in their fields and communities.
+                Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.
               </p>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
-                <Link href="/" className="block text-gray-400 hover:text-white transition-colors">Home</Link>
-                <Link href="/speakers" className="block text-gray-400 hover:text-white transition-colors">Speakers</Link>
-                <Link href="/program" className="block text-gray-400 hover:text-white transition-colors">Program</Link>
-                <Link href="/register" className="block text-gray-400 hover:text-white transition-colors">Register</Link>
-                <Link href="/about" className="block text-gray-400 hover:text-white transition-colors">About</Link>
+                <Link href="/" className="block text-gray-400 hover:text-blue-900 transition-colors">Home</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
+                <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
+                <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
+                <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
+                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <div className="space-y-3 text-gray-400">
-                <p>info@ypesummit.co.ke</p>
-                <p>+254 700 000 000</p>
+                <p>aysmwangaza@gmail.com</p>
+                <p> +254117476172</p>
                 <p>Nairobi, Kenya</p>
               </div>
             </div>
@@ -270,23 +271,26 @@ export default function AdminDashboard() {
               <div className="space-y-2 text-gray-400">
                 <p>Follow us on social media for updates</p>
                 <div className="flex space-x-4 mt-4">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">f</span>
-                  </div>
-                  <div className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">ig</span>
-                  </div>
-                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">wa</span>
-                  </div>
-                  <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">yt</span>
-                  </div>
-                  <a href="https://twitter.com/ypesummit" target="_blank" rel="noopener noreferrer">
-                    <Twitter className="w-10 h-10 text-gray-400" />
+                  <a
+                    href="#"
+                    aria-label="Facebook"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Facebook className="w-5 h-5 text-white" />
                   </a>
-                  <a href="https://linkedin.com/in/ypesummit" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-10 h-10 text-gray-400" />
+                  <a
+                    href="#"
+                    aria-label="Twitter"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Twitter className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="YouTube"
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    <Youtube className="w-5 h-5 text-white" />
                   </a>
                 </div>
               </div>
@@ -294,7 +298,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 YPE Summit. All rights reserved. | Powered by Youth Ministries</p>
+            <p>&copy; {new Date().getFullYear()} YPE Summit. All rights reserved. | Powered by Mwangaza Adventist Youth Society YPE Band</p>
           </div>
         </div>
       </footer>

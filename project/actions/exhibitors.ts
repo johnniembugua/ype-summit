@@ -37,7 +37,7 @@ export async function createExhibitor(data: ExhibitorFormData): Promise<ApiRespo
 
     return {
       success: true,
-      data: newExhibitor,
+      data: newExhibitor as Exhibitor,
       message: 'Your idea has been submitted successfully! We will review it and get back to you soon.',
     };
   } catch (error) {
@@ -59,7 +59,7 @@ export async function getAllExhibitorsForAdmin(): Promise<ApiResponse<Exhibitor[
 
     return {
       success: true,
-      data: allExhibitors,
+      data: allExhibitors as Exhibitor[],
     };
   } catch (error) {
     console.error('Error fetching exhibitors:', error);
@@ -88,7 +88,7 @@ export async function getExhibitorById(id: string): Promise<ApiResponse<Exhibito
 
     return {
       success: true,
-      data: exhibitor,
+      data: exhibitor as Exhibitor,
     };
   } catch (error) {
     console.error('Error fetching exhibitor:', error);
@@ -126,7 +126,7 @@ export async function updateExhibitorStatus(
 
     return {
       success: true,
-      data: updatedExhibitor,
+      data: updatedExhibitor as Exhibitor,
       message: 'Exhibitor status updated successfully',
     };
   } catch (error) {

@@ -6,7 +6,7 @@ export type Registration = {
   phone: string;
   profession: string;
   church?: string | null;
-  areaOfInterest: string;
+  workshopPreference: string;
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   paymentMethod?: string | null;
   paymentReference?: string | null;

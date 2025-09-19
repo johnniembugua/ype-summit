@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Award, ArrowLeft, Handshake, Star, Building, Users, Lightbulb, Megaphone, Trophy, Mail, Phone, MapPin, Facebook, Twitter, Youtube, Camera, Church, Coins, Trademark } from 'lucide-react';
+import { Award, ArrowLeft, Handshake, Star, Building, Users, Lightbulb, Megaphone, Trophy, Mail, Phone, MapPin, Facebook, Twitter, Youtube, Camera, Church, Coins } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -558,7 +558,7 @@ export default function Partnership() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="mb-4">
-                <Logo variant="footer" width={80} height={80} />
+                <Logo variant="footer" />
               </div>
               <p className="text-gray-400 leading-relaxed">
                 Empowering spiritually grounded professionals to make a lasting impact in their fields and communities.

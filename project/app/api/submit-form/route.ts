@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
         phone: data.phone,
         profession: data.profession,
         church: data.church,
-        workshopPreference: data.workshopPreference,
+        areaOfInterest: data.workshopPreference,
       });
 
       if (!result.success) {

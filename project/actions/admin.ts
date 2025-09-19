@@ -3,6 +3,7 @@
 import { db } from '@/db';
 import { questions, registrations, partnerships, exhibitors, eventAnalytics } from '@/db/schema';
 import { eq, sql, desc, count } from 'drizzle-orm';
+import { Question, Partnership, Exhibitor } from '@/types';
 
 // Add upvote field to questions table schema (we'll need to update the schema later)
 // For now, we'll store upvotes as a JSON field or add a separate upvotes table
@@ -36,7 +37,7 @@ export async function getAllQuestionsForAdmin() {
 
     return {
       success: true,
-      data: allQuestions,
+      data: allQuestions as Question[],
     };
   } catch (error) {
     console.error('Get all questions for admin error:', error);
@@ -56,7 +57,7 @@ export async function getAllPartnershipsForAdmin() {
 
     return {
       success: true,
-      data: allPartnerships,
+      data: allPartnerships as Partnership[],
     };
   } catch (error) {
     console.error('Get all partnerships for admin error:', error);
@@ -76,7 +77,7 @@ export async function getAllExhibitorsForAdmin() {
 
     return {
       success: true,
-      data: allExhibitors,
+      data: allExhibitors as Exhibitor[],
     };
   } catch (error) {
     console.error('Get all exhibitors for admin error:', error);
@@ -245,6 +246,43 @@ export async function getDashboardStats() {
     return {
       success: false,
       error: 'Failed to retrieve dashboard statistics.',
+    };
+  }
+}
+
+export async function updateQuestionStatus(
+  questionId: string,
+  status: 'pending' | 'reviewed' | 'answered' | 'archived',
+  answeredBy?: string
+) {
+  try {
+    const updateData: any = {
+      status,
+      updatedAt: new Date(),
+    };
+
+    if (status === 'answered') {
+      updateData.isAnswered = true;
+      updateData.answeredAt = new Date();
+      if (answeredBy) updateData.answeredBy = answeredBy;
+    }
+
+    const [updatedQuestion] = await db
+      .update(questions)
+      .set(updateData)
+      .where(eq(questions.id, questionId))
+      .returning();
+
+    return {
+      success: true,
+      data: updatedQuestion,
+      message: 'Question status updated successfully!',
+    };
+  } catch (error) {
+    console.error('Update question status error:', error);
+    return {
+      success: false,
+      error: 'Failed to update question status.',
     };
   }
 }
