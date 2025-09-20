@@ -65,9 +65,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>
+        <ThemeProvider
+         attribute="class"
+         defaultTheme="light"
+         enableSystem={false}
+         disableTransitionOnChange>
           {children}
           <Toaster 
             position="top-right"
