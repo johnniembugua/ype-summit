@@ -65,7 +65,7 @@ export default function Home() {
   const testimonials = [
     {
       name: 'Tony Okeyo',
-      title: 'Founder, Youth Ministries',
+      title: 'Business Owner',
       testimonial: 'The 2024 YPE Summit was a game-changer for me. I was inspired by the speakers and connected with like-minded professionals who share my passion for spiritually grounded impact.',
       image: '/images/1.jpeg'
     },
@@ -425,7 +425,7 @@ export default function Home() {
                 </AccordionTrigger>
                 <AccordionContent className="pb-6">
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    The YPE Summit 2025 will take place on September 28th at 09:00 EAT in Nairobi, Kenya. Join us for a day of inspiration, learning, and networking.
+                    The YPE Summit 2025 will take place on September 28th at 09:00 EAT, SDA Church Mwangaza, in Nairobi, Kenya. Join us for a day of inspiration, learning, and networking.
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -447,7 +447,7 @@ export default function Home() {
                 </AccordionTrigger>
                 <AccordionContent className="pb-6">
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    Registration is simple! Click the "Register to Attend" button on our homepage or visit the registration page. Limited seats are available, so register early.
+                    Registration is simple! Click the "Register for Summit" button on our homepage or visit the registration page. Limited seats are available, so register early.
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -458,7 +458,7 @@ export default function Home() {
                 </AccordionTrigger>
                 <AccordionContent className="pb-6">
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    Your registration includes access to all sessions, workshops, networking opportunities, meals, conference materials, and a certificate of participation.
+                    Your registration includes access to all sessions, workshops, networking opportunities, meals and conference materials.
                   </p>
                 </AccordionContent>
               </AccordionItem>

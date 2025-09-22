@@ -16,7 +16,7 @@ export default function Speakers() {
       bio: "A distinguished Jurist, who served as the 14th Chief Justice and President of the Supreme Court of Kenya. CJ Maraga is active in civic life, mentoring youth, leading the Africa Judges and Jurists Forum, and advocating for governance. He has received numerous awards, including the Elder of the Golden Heart (EGH) and honorary doctorates.",
       image: "/images/4.jpeg",
       featured: true,
-      topic: "Leadership with Integrity: Principles for Kingdom-Minded Professionals",
+      topic: "Harnessing the power of networking to inspire purpose, unlock opportunities, and drive entrepreneurship for a better tomorrow",
       social: {
         twitter: "https://x.com/dkmaraga?lang=en",
         linkedin: "https://linkedin.com/in/cjmaraga"
@@ -27,7 +27,7 @@ export default function Speakers() {
       title: "Medical Doctor & Public Health Expert",
       bio: "A medical doctor with specialist training in paediatrics, infectious disease, and public health. She has extensive experience as a public health professional working in academia, the public sector, the NGO community, and international organizations.",
       image: "/images/2.jpg",
-      topic: "Healthcare Excellence: Serving with Purpose and Compassion",
+      topic: "career development strategies, professional growth techniques and advancement opportunities",
       social: {
         twitter: "https://twitter.com/drmboringacha",
         linkedin: "https://www.linkedin.com/in/dorothy-mbori-ngacha-778b5b18/"
