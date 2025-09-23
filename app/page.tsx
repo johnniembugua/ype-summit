@@ -622,8 +622,8 @@ export default function Home() {
                 <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
                 <Link href="/program" className="block text-gray-400 hover:text-blue-900 transition-colors">Program</Link>
                 <Link href="/speakers" className="block text-gray-400 hover:text-blue-900 transition-colors">Speakers</Link>
+                <Link href="/exhibitors" className="block text-gray-400 hover:text-blue-900 transition-colors">Pitching</Link>
                 <Link href="/register" className="block text-gray-400 hover:text-blue-900 transition-colors">Register</Link>
-                <Link href="/about" className="block text-gray-400 hover:text-blue-900 transition-colors">About</Link>
               </div>
             </div>
 

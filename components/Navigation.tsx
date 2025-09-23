@@ -17,7 +17,7 @@ export function Navigation() {
     { href: '/register', label: 'Register', color: pathname === '/register' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
     { href: '/program', label: 'Program', color: pathname === '/program' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
     { href: '/speakers', label: 'Speakers', color: pathname === '/speakers' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
-    { href: '/exhibitors', label: 'Exhibitors', color: pathname === '/exhibitors' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
+    { href: '/exhibitors', label: 'Pitching', color: pathname === '/exhibitors' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
     { href: '/partnership', label: 'Partnership', color: pathname === '/partnership' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
     { href: '/resources', label: 'Resources', color: pathname === '/resources' ? 'text-blue-900 font-semibold' : 'text-gray-700 hover:text-blue-900' },
   ];
