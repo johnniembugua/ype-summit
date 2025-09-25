@@ -11,55 +11,55 @@ import { Navigation } from '@/components/Navigation';
 export default function Program() {
   const program = [
     { 
-      time: '8:00-8:30 AM (30min)', 
-      title: 'Arrival and Registration', 
+      time: '8:00 AM – 8:30 AM', 
+      title: 'Arrival and registration', 
       description: 'Check-in and registration for all attendees',
       duration: '30 min',
       type: 'logistics',
       facilitator: ''
     },
     { 
-      time: '8:30-8:45 AM (15min)', 
-      title: 'Singing Session', 
+      time: '8:30 AM – 8:45 AM', 
+      title: 'Singing session', 
       description: 'Led by Choristers',
       duration: '15 min',
       type: 'worship',
       facilitator: 'Choristers'
     },
     { 
-      time: '8:45-8:55 AM (10min)', 
-      title: 'Morning Devotion/Sermonette', 
+      time: '8:45 AM – 8:55 AM', 
+      title: 'Morning devotion/Sermonette', 
       description: 'Spiritual preparation for the day',
       duration: '10 min',
       type: 'worship',
       facilitator: ''
     },
     { 
-      time: '8:55-9:00 AM (5min)', 
-      title: 'Opening Prayers', 
+      time: '8:55 AM – 9:00 AM', 
+      title: 'Opening prayers', 
       description: 'Official opening prayers',
       duration: '5 min',
       type: 'worship',
       facilitator: ''
     },
     { 
-      time: '9:00-9:20 AM (20min)', 
-      title: 'Introduction: Business Pitch / Exhibition Awareness', 
-      description: 'Introduction to business pitch and exhibition opportunities',
+      time: '9:00 AM – 9:20 AM', 
+      title: 'Introduction', 
+      description: 'Business Pitch / Exhibition Awareness',
       duration: '20 min',
       type: 'presentation',
       facilitator: 'Eric Mackiage'
     },
     { 
-      time: '9:20-10:20 AM (60min)', 
-      title: 'Soft Skills and Personal Development', 
+      time: '9:20 AM – 10:20 AM', 
+      title: 'Soft skills and personal development', 
       description: 'A workshop covering: 1. Emotional intelligence & resilience. 2. Stress management. 3. Time management & productivity. 4. Public speaking & communication skills. 5. Mental health & wellness for young professionals.',
       duration: '60 min',
       type: 'workshop',
       facilitator: 'Dr. Dorothy Mbori'
     },
     { 
-      time: '10:20-10:30 AM (10min)', 
+      time: '10:20 AM – 10:30 AM', 
       title: 'Short Break / Music', 
       description: 'Networking break with music',
       duration: '10 min',
@@ -67,63 +67,63 @@ export default function Program() {
       facilitator: ''
     },
     { 
-      time: '10:30 AM-12:00 PM (90min)', 
-      title: 'Break-out Sessions', 
-      description: '1. Entrepreneurship & Business Development 2. Career Growth & Professional Development 3. Innovation & Emerging Trends',
-      duration: '90 min',
-      type: 'workshop',
-      facilitator: 'Joseph Owande, Dr. Dorothy Mbori, FCPA. Edwin Makori, Eric Macakiage'
-    },
-    { 
-      time: '12:00-12:10 PM (10min)', 
-      title: 'Introduction of the Keynote Speaker', 
+      time: '10:30 AM – 10:40 AM', 
+      title: 'Introduction of the Keynote speaker', 
       description: 'Introduction of the Chief Guest',
       duration: '10 min',
       type: 'presentation',
       facilitator: ''
     },
     { 
-      time: '12:10-1:00 PM (50min)', 
-      title: 'Keynote Speech: Harnessing the Power of Networking', 
-      description: 'Keynote address by Chief Guest',
-      duration: '50 min',
+      time: '10:40 AM – 12:10 PM', 
+      title: 'Keynote Speech', 
+      description: '[Harnessing the Power of Networking]',
+      duration: '90 min',
       type: 'keynote',
       facilitator: 'Chief Guest [CJ Maraga]'
     },
     { 
-      time: '1:00-2:00 PM (60min)', 
-      title: 'Lunch & Networking', 
+      time: '12:10 PM – 1:00 PM', 
+      title: 'Break-out sessions [3 groups]', 
+      description: '1. Entrepreneurship & Business Development 2. Career Growth & Professional Development 3. Innovation & Emerging Trends.',
+      duration: '50 min',
+      type: 'workshop',
+      facilitator: 'Joseph Owande, Dr.Dorothy Mbori, FCPA. Edwin Makori, Eric Macakiage'
+    },
+    { 
+      time: '1:00 PM – 2:00 PM', 
+      title: 'LUNCH & NETWORKING', 
       description: 'Lunch break with networking opportunities',
       duration: '60 min',
       type: 'meal',
       facilitator: 'ALL'
     },
     { 
-      time: '2:00-3:00 PM (60min)', 
-      title: 'Break-out Sessions', 
-      description: '1. Entrepreneurship & Business Development 2. Career Growth & Professional Development 3. Innovation & Emerging Trends',
+      time: '2:00 PM – 3:00 PM', 
+      title: 'Break-out sessions [3 groups]', 
+      description: '1. Entrepreneurship & Business Development 2. Career Growth & Professional Development 3. Innovation & Emerging Trends.',
       duration: '60 min',
       type: 'workshop',
-      facilitator: 'Joseph Owande, Dr. Dorothy Mbori, FCPA. Edwin Makori, Eric Macakiage'
+      facilitator: 'Dr. Dorothy Mbori, FCPA. Edwin Makori, Eric Macakiage'
     },
     { 
-      time: '3:00-3:30 PM (30min)', 
+      time: '3:00 PM – 3:30 PM', 
       title: 'Financial Literacy', 
       description: 'Financial management and literacy session',
       duration: '30 min',
       type: 'presentation',
-      facilitator: 'Yvonne'
+      facilitator: 'Davidson Muriithi'
     },
     { 
-      time: '3:30-4:10 PM (40min)', 
+      time: '3:30 PM – 4:10 PM', 
       title: 'Panelist Round-Up', 
-      description: 'Key takeaways from the workshops with Question and Answers',
+      description: '[Key takeaways from the workshops] Question and Answers',
       duration: '40 min',
       type: 'panel',
-      facilitator: 'Dr. Dorothy Mbori, FCPA. Edwin Makori, Joseph Owande, Eric Macakiage'
+      facilitator: 'Dr. Dorothy Mbori, FCPA. Edwin Makori, Eric Macakiage'
     },
     { 
-      time: '4:10-4:20 PM (10min)', 
+      time: '4:10 PM – 4:20 PM', 
       title: 'Gifting', 
       description: 'Recognition and gifting session',
       duration: '10 min',
@@ -131,25 +131,25 @@ export default function Program() {
       facilitator: ''
     },
     { 
-      time: '4:20-4:25 PM (5min)', 
-      title: 'Closing Remarks/Vote of Thanks', 
+      time: '4:20 PM – 4:25 PM', 
+      title: 'Closing remarks/Vote of Thanks', 
       description: 'Final remarks and expressions of gratitude',
       duration: '5 min',
       type: 'closing',
       facilitator: ''
     },
     { 
-      time: '4:25-4:30 PM (5min)', 
-      title: 'Closing Prayer', 
+      time: '4:25 PM – 4:30 PM', 
+      title: 'Closing prayer', 
       description: 'Final prayer to close the summit',
       duration: '5 min',
       type: 'worship',
       facilitator: ''
     },
     { 
-      time: '4:30 PM Ongoing', 
-      title: 'Networking/Photo Session', 
-      description: 'Final networking and photo opportunities',
+      time: '4:30 PM', 
+      title: 'THE END!', 
+      description: '[Networking/ Photo Session]',
       duration: 'Ongoing',
       type: 'networking',
       facilitator: 'ALL'
