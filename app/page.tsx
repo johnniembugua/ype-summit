@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Calendar, Clock, MapPin, Users, ArrowRight, Award, Play, ChevronLeft, ChevronRight, Quote, Facebook, Twitter, Youtube, FileText, Church, User } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ArrowRight, Award, Play, ChevronLeft, ChevronRight, Quote, Facebook, Twitter, Youtube, FileText, Church, User, Wand2 } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 import { Logo } from '@/components/Logo';
 
@@ -212,18 +212,18 @@ export default function Home() {
             {/* Unique CTA design */}
             <div className="space-y-4">
               <div className="relative inline-block">
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 blur-lg rounded-lg"></div>
-                <Link href="/register" className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 blur-lg rounded-lg animate-pulse"></div>
+                <Link href="/poster-generator" className="relative">
                   <Button 
                     size="lg" 
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-blue-900 font-bold px-8 py-4 text-lg border-0 shadow-2xl hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105"
+                    className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold px-8 py-4 text-lg border-0 shadow-2xl hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105 animate-bounce animate-shake"
                   >
-                    Register To Attend
+                    Generate Your poster
                   </Button>
                 </Link>
               </div>
               <p className="text-sm text-yellow-200/80 font-medium tracking-wide">
-                ✦ Limited seats available • Register now to secure your spot ✦
+                ✦ Generate your personalized "I will Attend" summit poster ✦
               </p>
             </div>
           </div>
@@ -248,7 +248,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Users className="w-8 h-8 text-blue-900" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-gray-900">Guest Speaker</CardTitle>
@@ -268,7 +268,7 @@ export default function Home() {
 
             <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <FileText className="w-8 h-8 text-blue-900" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-gray-900">Rich Program</CardTitle>
@@ -288,7 +288,7 @@ export default function Home() {
 
             <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-orange-50">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Church className="w-8 h-8 text-blue-900" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-gray-900">Spiritually Grounded Impact</CardTitle>
@@ -313,7 +313,7 @@ export default function Home() {
       <section className="py-20 bg-gradient-to-br from-orange-50 to-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="rounded-2xl p-8 md:p-12 text-white" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
-            <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
+            <div className="flex flex-col lg:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
               <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-yellow-400 flex-shrink-0">
                 <img 
                   src="/images/4.jpeg"

@@ -11,7 +11,7 @@ import { Navigation } from '@/components/Navigation';
 export default function PosterGenerator() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(2);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDraggingImage, setIsDraggingImage] = useState(false);
@@ -52,15 +52,67 @@ export default function PosterGenerator() {
     const reader = new FileReader();
     reader.onload = (e) => {
       setUploadedImage(e.target?.result as string);
-      setScale(1);
+      setScale(2);
       setPosition({ x: 0, y: 0 });
     };
     reader.readAsDataURL(file);
   };
 
+  // Image drag functionality
+  const handleDragStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDraggingImage(true);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleDragEnd = () => {
+    setIsDraggingImage(false);
+  };
+
+  const handleDragMove = (e: React.MouseEvent) => {
+    if (!isDraggingImage) return; // Only move if actually dragging
+    
+    const deltaX = e.clientX - dragStart.x;
+    const deltaY = e.clientY - dragStart.y;
+    
+    setPosition(prev => ({
+      x: prev.x + deltaX * 1.2, // Maximum sensitivity for extended movement range
+      y: prev.y + deltaY * 1.2  // Maximum sensitivity for extended movement range
+    }));
+    
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  // Touch events for mobile with better handling
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling while dragging
+    setIsDraggingImage(true);
+    setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+  };
+
+  const handleTouchEnd = () => {
+    setIsDraggingImage(false);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDraggingImage) return; // Only move if actually dragging
+    
+    e.preventDefault(); // Prevent scrolling while dragging
+    
+    const deltaX = e.touches[0].clientX - dragStart.x;
+    const deltaY = e.touches[0].clientY - dragStart.y;
+    
+    setPosition(prev => ({
+      x: prev.x + deltaX * 0.3, // Reduced sensitivity for smoother movement
+      y: prev.y + deltaY * 0.3
+    }));
+    
+    setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+  };
+
   const handleRemoveImage = () => {
     setUploadedImage(null);
-    setScale(1);
+    setScale(2);
     setPosition({ x: 0, y: 0 });
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -267,7 +319,7 @@ export default function PosterGenerator() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setScale(Math.min(2, scale + 0.1))}
+                            onClick={() => setScale(scale + 0.1)}
                           >
                             <ZoomIn className="w-4 h-4" />
                           </Button>
@@ -275,7 +327,7 @@ export default function PosterGenerator() {
                             variant="outline"
                             size="sm"
                             onClick={() => {
-                              setScale(1);
+                              setScale(2);
                               setPosition({ x: 0, y: 0 });
                             }}
                           >
@@ -337,18 +389,25 @@ export default function PosterGenerator() {
                       <div 
                         className="absolute rounded-full border-4 border-white overflow-hidden bg-white/20 flex items-center justify-center shadow-lg"
                         style={{
-                          // Exact coordinates from canvas generation, scaled down for preview (scale factor ~0.25)
-                          width: '81px',   // 162px radius * 2 = 324px diameter * 0.25 (scaled down for preview)
-                          height: '81px', // 162px radius * 2 = 324px diameter * 0.25 (scaled down for preview)
-                          left: `${215 - 40.5}px`, // (860px center X - 162px radius) * 0.25 = 215px - 40.5px (scaled down for preview)
-                          top: `${121 - 40.5}px`,   // (484px center Y - 162px radius) * 0.25 = 121px - 40.5px (scaled down for preview)
+                          // Use percentage-based positioning to match canvas coordinates exactly
+                          // Canvas: 1080x1080px, Circle: center(860, 484), radius(162)
+                          width: '30%',   // 324px diameter / 1080px = 30%
+                          height: '30%', // 324px diameter / 1080px = 30%
+                          left: '64.63%', // (860px - 162px) / 1080px = 698px / 1080px = 64.63%
+                          top: '29.81%',  // (484px - 162px) / 1080px = 322px / 1080px = 29.81%
                         }}
+                        onMouseDown={handleDragStart}
+                        onMouseUp={handleDragEnd}
+                        onMouseMove={handleDragMove}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                        onTouchMove={handleTouchMove}
                       >
                         {uploadedImage ? (
                           <img
                             src={uploadedImage}
                             alt="Portrait preview"
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             style={{
                               transform: `scale(${scale}) translate(${position.x * 0.25}px, ${position.y * 0.25}px)`,
                             }}
