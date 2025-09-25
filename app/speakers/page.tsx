@@ -65,6 +65,17 @@ export default function Speakers() {
         twitter: "https://twitter.com/edwinmakori",
         linkedin: "https://ke.linkedin.com/in/edwin-makori-b3572241"
       }
+    },
+    {
+      name: "Joseph Owande",
+      title: "Managing Partner at Keldine & Co. LLP",
+      bio: "A Kenyan tax and business advisory expert, Managing Partner at Keldine & Co. LLP, specializing in audit, finance, and enterprise development. With experience as Audit & Finance Assistant at the Ministry of Industrialization, Trade & Enterprise Development, he guides businesses on tax compliance and digital systems, driving sustainable growth through strategic insights. Passionate about financial literacy education and empowering entrepreneurs with practical financial management skills.",
+      image: "/images/6.png",
+      topic: "Financial Literacy & Business Advisory: Empowering Entrepreneurs with Strategic Financial Management",
+      social: {
+        twitter: "https://x.com/keldineowande",
+        linkedin: "https://ke.linkedin.com/in/joseph-owande-cpa-k-9a386664"
+      }
     }
   ];
 
