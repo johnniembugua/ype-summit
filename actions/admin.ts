@@ -1,9 +1,9 @@
 'use server';
 
 import { db } from '@/db';
-import { questions, registrations, partnerships, exhibitors, eventAnalytics } from '@/db/schema';
+import { questions, registrations, partnerships, exhibitors, feedback, eventAnalytics } from '@/db/schema';
 import { eq, sql, desc, count } from 'drizzle-orm';
-import { Question, Partnership, Exhibitor } from '@/types';
+import { Question, Partnership, Exhibitor, Feedback } from '@/types';
 
 // Add upvote field to questions table schema (we'll need to update the schema later)
 // For now, we'll store upvotes as a JSON field or add a separate upvotes table
@@ -84,6 +84,26 @@ export async function getAllExhibitorsForAdmin() {
     return {
       success: false,
       error: 'Failed to retrieve exhibitors.',
+    };
+  }
+}
+
+export async function getAllFeedbackForAdmin() {
+  try {
+    const allFeedback = await db
+      .select()
+      .from(feedback)
+      .orderBy(desc(feedback.createdAt));
+
+    return {
+      success: true,
+      data: allFeedback as Feedback[],
+    };
+  } catch (error) {
+    console.error('Get all feedback for admin error:', error);
+    return {
+      success: false,
+      error: 'Failed to retrieve feedback.',
     };
   }
 }
@@ -205,6 +225,26 @@ export async function getDashboardStats() {
       .from(exhibitors)
       .where(eq(exhibitors.status, 'rejected'));
 
+    // Get feedback stats
+    const totalFeedback = await db
+      .select({ count: count() })
+      .from(feedback);
+
+    const pendingFeedback = await db
+      .select({ count: count() })
+      .from(feedback)
+      .where(eq(feedback.status, 'pending'));
+
+    const reviewedFeedback = await db
+      .select({ count: count() })
+      .from(feedback)
+      .where(eq(feedback.status, 'reviewed'));
+
+    const archivedFeedback = await db
+      .select({ count: count() })
+      .from(feedback)
+      .where(eq(feedback.status, 'archived'));
+
     const stats = {
       registrations: {
         total: totalRegistrations[0]?.count || 0,
@@ -228,12 +268,19 @@ export async function getDashboardStats() {
         approved: approvedExhibitors[0]?.count || 0,
         rejected: rejectedExhibitors[0]?.count || 0,
       },
+      feedback: {
+        total: totalFeedback[0]?.count || 0,
+        pending: pendingFeedback[0]?.count || 0,
+        reviewed: reviewedFeedback[0]?.count || 0,
+        archived: archivedFeedback[0]?.count || 0,
+      },
       analytics: {
         total: totalEvents[0]?.count || 0,
         registrations: registrationEvents[0]?.count || 0,
         questions: questionEvents[0]?.count || 0,
         partnerships: partnershipEvents[0]?.count || 0,
         exhibitors: exhibitorEvents[0]?.count || 0,
+        feedback: 0, // We'll add this when we create the feedback submission
       },
     };
 
@@ -432,6 +479,61 @@ export async function updatePartnershipStatus(
     return {
       success: false,
       error: 'Failed to update partnership status.',
+    };
+  }
+}
+
+export async function updateFeedbackStatus(
+  feedbackId: string,
+  status: 'pending' | 'reviewed' | 'archived',
+  reviewedBy?: string
+) {
+  try {
+    const updateData: any = {
+      status,
+      updatedAt: new Date(),
+    };
+
+    if (status === 'reviewed') {
+      updateData.reviewedAt = new Date();
+      if (reviewedBy) updateData.reviewedBy = reviewedBy;
+    }
+
+    const [updatedFeedback] = await db
+      .update(feedback)
+      .set(updateData)
+      .where(eq(feedback.id, feedbackId))
+      .returning();
+
+    return {
+      success: true,
+      data: updatedFeedback,
+      message: 'Feedback status updated successfully!',
+    };
+  } catch (error) {
+    console.error('Update feedback status error:', error);
+    return {
+      success: false,
+      error: 'Failed to update feedback status.',
+    };
+  }
+}
+
+export async function deleteFeedback(feedbackId: string) {
+  try {
+    await db
+      .delete(feedback)
+      .where(eq(feedback.id, feedbackId));
+
+    return {
+      success: true,
+      message: 'Feedback deleted successfully!',
+    };
+  } catch (error) {
+    console.error('Delete feedback error:', error);
+    return {
+      success: false,
+      error: 'Failed to delete feedback.',
     };
   }
 }

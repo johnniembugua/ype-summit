@@ -85,10 +85,42 @@ export const exhibitors = pgTable("exhibitors", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Feedback Table
+export const feedback = pgTable("feedback", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  dayAttended: varchar("day_attended", { length: 50 }).notNull(), // yes, partial
+  overallRating: integer("overall_rating").notNull(), // 1-5 stars
+  contentQuality: integer("content_quality").notNull(), // 1-5 stars
+  speakerQuality: integer("speaker_quality").notNull(), // 1-5 stars
+  organizationRating: integer("organization_rating").notNull(), // 1-5 stars
+  venueRating: integer("venue_rating").notNull(), // 1-5 stars
+  networkingRating: integer("networking_rating").notNull(), // 1-5 stars
+  mostValuable: varchar("most_valuable", { length: 100 }).notNull(),
+  improvements: varchar("improvements", { length: 100 }).notNull(),
+  futureTopics: varchar("future_topics", { length: 100 }).notNull(),
+  recommendLikelihood: varchar("recommend_likelihood", { length: 50 }),
+  additionalComments: text("additional_comments"),
+  workshopFeedback: text("workshop_feedback"),
+  favoriteWorkshop: varchar("favorite_workshop", { length: 100 }),
+  favoriteWorkshopOther: varchar("favorite_workshop_other", { length: 255 }),
+  speakerSuggestions: varchar("speaker_suggestions", { length: 255 }),
+  speakerSpecialization: varchar("speaker_specialization", { length: 100 }),
+  shareContact: varchar("share_contact", { length: 10 }), // yes, no
+  speakerContact: varchar("speaker_contact", { length: 255 }),
+  status: varchar("status", { length: 20 }).default("pending").notNull(), // pending, reviewed, archived
+  reviewedAt: timestamp("reviewed_at"),
+  reviewedBy: varchar("reviewed_by", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Event Analytics Table (for tracking event metrics)
 export const eventAnalytics = pgTable("event_analytics", {
   id: uuid("id").defaultRandom().primaryKey(),
-  eventType: varchar("event_type", { length: 50 }).notNull(), // registration, question_submission, partnership_inquiry, exhibitor_submission
+  eventType: varchar("event_type", { length: 50 }).notNull(), // registration, question_submission, partnership_inquiry, exhibitor_submission, feedback_submission
   ipAddress: varchar("ip_address", { length: 45 }),
   userAgent: text("user_agent"),
   referrer: varchar("referrer", { length: 500 }),

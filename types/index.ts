@@ -72,9 +72,40 @@ export type Exhibitor = {
   updatedAt: Date;
 };
 
+export type Feedback = {
+  id: string;
+  fullName: string;
+  email: string;
+  phone?: string | null;
+  dayAttended: 'yes' | 'partial';
+  overallRating: number; // 1-5 stars
+  contentQuality: number; // 1-5 stars
+  speakerQuality: number; // 1-5 stars
+  organizationRating: number; // 1-5 stars
+  venueRating: number; // 1-5 stars
+  networkingRating: number; // 1-5 stars
+  mostValuable: string;
+  improvements: string;
+  futureTopics: string;
+  recommendLikelihood?: string | null;
+  additionalComments?: string | null;
+  workshopFeedback?: string | null;
+  favoriteWorkshop?: string | null;
+  favoriteWorkshopOther?: string | null;
+  speakerSuggestions?: string | null;
+  speakerSpecialization?: string | null;
+  shareContact?: string | null; // yes, no
+  speakerContact?: string | null;
+  status: 'pending' | 'reviewed' | 'archived';
+  reviewedAt?: Date | null;
+  reviewedBy?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type EventAnalytics = {
   id: string;
-  eventType: 'registration' | 'question_submission' | 'partnership_inquiry' | 'exhibitor_submission';
+  eventType: 'registration' | 'question_submission' | 'partnership_inquiry' | 'exhibitor_submission' | 'feedback_submission';
   ipAddress?: string | null;
   userAgent?: string | null;
   referrer?: string | null;
@@ -127,6 +158,31 @@ export type ExhibitorFormData = {
   otherSdg?: string;
 };
 
+export type FeedbackFormData = {
+  fullName: string;
+  email: string;
+  phone?: string;
+  dayAttended: string;
+  overallRating: string;
+  contentQuality: string;
+  speakerQuality: string;
+  organizationRating: string;
+  venueRating: string;
+  networkingRating: string;
+  mostValuable: string;
+  improvements: string;
+  futureTopics: string;
+  recommendLikelihood?: string;
+  additionalComments?: string;
+  workshopFeedback?: string;
+  favoriteWorkshop?: string;
+  favoriteWorkshopOther?: string;
+  speakerSuggestions?: string;
+  speakerSpecialization?: string;
+  shareContact?: string;
+  speakerContact?: string;
+};
+
 // API response types
 export type ApiResponse<T = any> = {
   success: boolean;
@@ -163,6 +219,13 @@ export type ExhibitorStats = {
   reviewed: number;
   approved: number;
   rejected: number;
+};
+
+export type FeedbackStats = {
+  total: number;
+  pending: number;
+  reviewed: number;
+  archived: number;
 };
 
 // Area of interest preferences

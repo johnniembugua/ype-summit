@@ -65,38 +65,60 @@ export default function Feedback() {
       return;
     }
 
+    // Validate ratings
+    const requiredRatings = ['overallRating', 'contentQuality', 'speakerQuality', 'organizationRating', 'venueRating', 'networkingRating'];
+    const missingRatings = requiredRatings.filter(rating => !formData[rating as keyof typeof formData]);
+    
+    if (missingRatings.length > 0) {
+      toast.error('Please provide ratings for all required fields.');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      // Simulate form submission - in a real app, this would call an API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast.success('Thank you for your feedback! Your input helps us improve future events.');
-      
-      // Reset form
-      setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        dayAttended: '',
-        overallRating: '',
-        contentQuality: '',
-        speakerQuality: '',
-        organizationRating: '',
-        venueRating: '',
-        networkingRating: '',
-        mostValuable: '',
-        improvements: '',
-        futureTopics: '',
-        recommendLikelihood: '',
-        additionalComments: '',
-        workshopFeedback: '',
-        favoriteWorkshop: '',
-        favoriteWorkshopOther: '',
-        speakerSuggestions: '',
-        speakerSpecialization: '',
-        shareContact: '',
-        speakerContact: ''
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success('Thank you for your feedback! Your input helps us improve future events.');
+        
+        // Reset form
+        setFormData({
+          fullName: '',
+          email: '',
+          phone: '',
+          dayAttended: '',
+          overallRating: '',
+          contentQuality: '',
+          speakerQuality: '',
+          organizationRating: '',
+          venueRating: '',
+          networkingRating: '',
+          mostValuable: '',
+          improvements: '',
+          futureTopics: '',
+          recommendLikelihood: '',
+          additionalComments: '',
+          workshopFeedback: '',
+          favoriteWorkshop: '',
+          favoriteWorkshopOther: '',
+          speakerSuggestions: '',
+          speakerSpecialization: '',
+          shareContact: '',
+          speakerContact: ''
+        });
+      } else {
+        toast.error(result.error || 'Failed to submit feedback. Please try again.');
+      }
     } catch (error) {
+      console.error('Feedback submission error:', error);
       toast.error('Failed to submit feedback. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -139,7 +161,7 @@ export default function Feedback() {
           </div>
 
           {/* Feedback Form */}
-          <Card className="shadow-xl border-0 backdrop-blur-lg bg-white/10 border border-white/20">
+          <Card className="shadow-xl backdrop-blur-lg bg-white/10 border border-white/20">
             <CardHeader className="text-white rounded-t-lg shadow-lg" style={{ background: 'linear-gradient(90deg, #0b3050, #021023)' }}>
               <CardTitle className="text-2xl">Event Feedback Form</CardTitle>
               <CardDescription className="text-blue-100">

@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, MessageSquare, Handshake, TrendingUp, Calendar, Clock, CheckCircle, AlertCircle, Building } from 'lucide-react';
+import { Users, MessageSquare, Handshake, TrendingUp, Calendar, Clock, CheckCircle, AlertCircle, Building, Star } from 'lucide-react';
 
 interface DashboardStats {
   registrations: {
@@ -26,12 +26,19 @@ interface DashboardStats {
     approved: number;
     rejected: number;
   };
+  feedback: {
+    total: number;
+    pending: number;
+    reviewed: number;
+    archived: number;
+  };
   analytics: {
     total: number;
     registrations: number;
     questions: number;
     partnerships: number;
     exhibitors: number;
+    feedback: number;
   };
 }
 
@@ -74,6 +81,14 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       trend: '+18% from last week'
     },
     {
+      title: 'Feedback Submissions',
+      value: stats.feedback.total,
+      subtitle: `${stats.feedback.reviewed} reviewed, ${stats.feedback.pending} pending`,
+      icon: Star,
+      color: 'orange',
+      trend: '+22% from last week'
+    },
+    {
       title: 'Total Interactions',
       value: stats.analytics.total,
       subtitle: 'All user interactions tracked',
@@ -109,6 +124,11 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
         bg: 'bg-indigo-50',
         icon: 'bg-indigo-100 text-indigo-600',
         text: 'text-indigo-600'
+      },
+      orange: {
+        bg: 'bg-orange-50',
+        icon: 'bg-orange-100 text-orange-600',
+        text: 'text-orange-600'
       },
     };
     return colors[color as keyof typeof colors] || colors.blue;
@@ -148,8 +168,16 @@ export function DashboardOverview({ stats }: DashboardOverviewProps) {
       color: 'text-indigo-600'
     },
     {
+      label: 'Feedback Review Rate',
+      value: stats.feedback.total > 0 
+        ? `${Math.round((stats.feedback.reviewed / stats.feedback.total) * 100)}%`
+        : '0%',
+      icon: Star,
+      color: 'text-orange-600'
+    },
+    {
       label: 'Active Issues',
-      value: stats.registrations.pending + stats.questions.pending + stats.partnerships.pending + stats.exhibitors.pending,
+      value: stats.registrations.pending + stats.questions.pending + stats.partnerships.pending + stats.exhibitors.pending + stats.feedback.pending,
       icon: AlertCircle,
       color: 'text-red-600'
     },

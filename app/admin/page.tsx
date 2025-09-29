@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { RegistrationsTable } from '@/components/admin/registrations-table';
 import { QuestionsTable } from '@/components/admin/questions-table';
 import { PartnershipsTable } from '@/components/admin/partnerships-table';
 import { ExhibitorsTable } from '@/components/admin/exhibitors-table';
+import { FeedbackTable } from '@/components/admin/feedback-table';
 import { AdminAuth } from '@/components/admin/admin-auth';
 import { Logo } from '@/components/Logo';
 import Link from 'next/link';
@@ -24,9 +25,10 @@ import {
   getAllQuestionsForAdmin,
   getAllPartnershipsForAdmin,
   getAllExhibitorsForAdmin,
+  getAllFeedbackForAdmin,
 } from '@/actions/admin';
 
-import { Registration, Question, Partnership, Exhibitor } from '@/types';
+import { Registration, Question, Partnership, Exhibitor, Feedback } from '@/types';
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -39,15 +41,17 @@ export default function AdminDashboard() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [partnerships, setPartnerships] = useState<Partnership[]>([]);
   const [exhibitors, setExhibitors] = useState<Exhibitor[]>([]);
+  const [feedback, setFeedback] = useState<Feedback[]>([]);
 
   const fetchData = async () => {
     try {
-      const [statsResult, registrationsResult, questionsResult, partnershipsResult, exhibitorsResult] = await Promise.all([
+      const [statsResult, registrationsResult, questionsResult, partnershipsResult, exhibitorsResult, feedbackResult] = await Promise.all([
         getDashboardStats(),
         getAllRegistrationsForAdmin(),
         getAllQuestionsForAdmin(),
         getAllPartnershipsForAdmin(),
         getAllExhibitorsForAdmin(),
+        getAllFeedbackForAdmin(),
       ]);
 
       if (statsResult.success) setStats(statsResult.data);
@@ -55,6 +59,7 @@ export default function AdminDashboard() {
       if (questionsResult.success) setQuestions(questionsResult.data as Question[] || []);
       if (partnershipsResult.success) setPartnerships(partnershipsResult.data as Partnership[] || []);
       if (exhibitorsResult.success) setExhibitors(exhibitorsResult.data as Exhibitor[] || []);
+      if (feedbackResult.success) setFeedback(feedbackResult.data as Feedback[] || []);
 
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -77,7 +82,7 @@ export default function AdminDashboard() {
     toast.success('Logged out successfully');
   };
 
-  const checkAuthentication = () => {
+  const checkAuthentication = useCallback(() => {
     const authStatus = sessionStorage.getItem('ype-admin-auth');
     if (authStatus === 'authenticated') {
       setIsAuthenticated(true);
@@ -85,11 +90,11 @@ export default function AdminDashboard() {
     } else {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     checkAuthentication();
-  }, []);
+  }, [checkAuthentication]);
 
   // Show authentication form if not authenticated
   if (!isAuthenticated) {
@@ -148,12 +153,12 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:w-[800px] mx-auto">
+          <TabsList className="grid w-full grid-cols-6 lg:w-[1000px] mx-auto">
             <TabsTrigger value="overview" className="flex items-center space-x-2">
               <span>Overview</span>
               {stats && (
                 <Badge variant="secondary" className="ml-1">
-                  {stats.registrations.total + stats.questions.total + stats.partnerships.total + stats.exhibitors.total}
+                  {stats.registrations.total + stats.questions.total + stats.partnerships.total + stats.exhibitors.total + stats.feedback.total}
                 </Badge>
               )}
             </TabsTrigger>
@@ -186,6 +191,14 @@ export default function AdminDashboard() {
               {exhibitors.length > 0 && (
                 <Badge variant="secondary" className="ml-1">
                   {exhibitors.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="feedback" className="flex items-center space-x-2">
+              <span>Feedback</span>
+              {feedback.length > 0 && (
+                <Badge variant="secondary" className="ml-1">
+                  {feedback.length}
                 </Badge>
               )}
             </TabsTrigger>
@@ -227,6 +240,13 @@ export default function AdminDashboard() {
           <TabsContent value="exhibitors" className="space-y-6">
             <ExhibitorsTable 
               exhibitors={exhibitors} 
+              onUpdate={fetchData}
+            />
+          </TabsContent>
+
+          <TabsContent value="feedback" className="space-y-6">
+            <FeedbackTable 
+              feedback={feedback} 
               onUpdate={fetchData}
             />
           </TabsContent>
